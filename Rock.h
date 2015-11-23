@@ -1,42 +1,42 @@
 /*
-	Rock header file by John Dwyer
+	Mineral header file by John Dwyer
 */
 
-#ifndef ROCK_H
-#define ROCK_H
+#ifndef MINERAL_H
+#define MINERAL_H
 
 #include <string>
 using namespace std;
 
-class Rock
+class Mineral
 {
 private:
 	string	name,
-		type,
+		crystalSystem,
 		cleavage,
-		color;
-	double hardness,
-		value;
+		color,
+		formula;
+	double hardness;
 public:
 	// constructor
-	Rock();
+	Mineral();
 
 	// destructor
-	~Rock();
+	~Mineral();
 
 	// mutators
 	void setName(string n);
-	void setType(string t);
+	void setCystalSystem(string t);
 	void setCleavage(string clv);
 	void setColor(string col);
 	void setHardness(double h);
-	void setValue(double v);
+	void setFormula(double v);
 
 	// accessors
 	double getHardness() { return hardness; }
-	double getValue() { return value; }
+	double getFormula() { return formula; }
 	string getName() { return name; }
-	string getType() { return type; }
+	string getCystalSystem() { return crystalSystem; }
 	string getCleavage() { return cleavage; }
 	string getColor() { return color; }
 };
