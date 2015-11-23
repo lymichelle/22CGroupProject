@@ -3,7 +3,7 @@
 /************************************************
 
 *************************************************/
-int main()
+void Menu::mainMenu()
 {
 	char choice;
 	bool quit = false;
@@ -56,43 +56,42 @@ int main()
 		default:
 			cout << "Invalid input.\n";
 		}
+		cout << endl;
 	}
 
 	cout << "Insert \"thank you\" message here." << endl;
-
-	return 0;
 }
 
 /*************************************************
 *************************************************/
-void caseAdd()
+void Menu::caseAdd()
 {
 }
 
-void caseUndo()
-{
-}
-
-/*************************************************
-*************************************************/
-void caseDelete()
+void Menu::caseUndo()
 {
 }
 
 /*************************************************
 *************************************************/
-void caseStatistic()
+void Menu::caseDelete()
 {
 }
 
 /*************************************************
 *************************************************/
-void caseWriteFile()
+void Menu::caseStatistic()
+{
+}
+
+/*************************************************
+*************************************************/
+void Menu::caseWriteFile()
 {
 
 }
 
-bool outFileValid(ofstream &outFile)
+/*bool outFileValid(ofstream &outFile)
 {
 	outFile.open("file_name.txt");
 	if (!outFile.is_open())
@@ -101,16 +100,17 @@ bool outFileValid(ofstream &outFile)
 		return false;
 	}
 	return true;
-}
+
+}*/
 
 /*************************************************
 *************************************************/
-void caseSearch()
+void Menu::caseSearch()
 {
 	char subChoice;
-	bool valid = false;
+	bool valid = true;
 
-	while (!valid)
+	while (valid)
 	{
 		cout << "Please select a search type from the options below:\n" << endl
 			<< "P - Primary Search\n" // change names later
@@ -135,11 +135,13 @@ void caseSearch()
 			break;
 		}
 	}
+
+	return;
 }
 
 /*************************************************
 *************************************************/
-void caseList()
+void Menu::caseList()
 {
 	char subChoice;
 	bool valid = true;
