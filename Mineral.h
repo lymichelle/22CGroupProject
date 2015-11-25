@@ -19,10 +19,13 @@ private:
 	double hardness;
 public:
 	// constructor
-	Mineral();
+	Mineral(){name = "NULL"; crystalSystem = "NULL";
+        cleavage = "NULL"; color = "NULL"; formula = "NULL";
+        hardness = 0.0;}
+    Mineral(string n, string t, string clv, string col, string v, double h);
 
 	// destructor
-	~Mineral();
+	~Mineral(){};
 
 	// mutators
 	void setName(string n);
@@ -33,12 +36,45 @@ public:
 	void setFormula(double v);
 
 	// accessors
-	double getHardness() { return hardness; }
-	double getFormula() { return formula; }
-	string getName() { return name; }
-	string getCystalSystem() { return crystalSystem; }
-	string getCleavage() { return cleavage; }
-	string getColor() { return color; }
+	double getHardness() const { return hardness; }
+	string getFormula() const { return formula; }
+	string getName() const { return name; }
+	string getCystalSystem() const { return crystalSystem; }
+	string getCleavage() const { return cleavage; }
+	string getColor() const { return color; }
+
+
+	//Overloaded copy constructor
+	Mineral& operator= (const Mineral& min) {
+		name = min.getName();
+		crystalSystem = min.getCystalSystem();
+		cleavage = min.getCleavage();
+		color = min.getColor();
+		formula = min.getFormula();
+        hardness = min.getHardness();
+        return *this;
+	}
+
+	//Overloaded stream insertion operator so the Employee type is printable
+	//friend ostream& operator<<(ostream& os,  Employee& emp);
+	friend inline ostream& operator<<(ostream& os, Mineral& min)
+	{
+		os << min.getName() << ", "
+            << min.getCystalSystem() << ", "
+            << min.getFormula() << ", "
+            << min.getCleavage() << ", "
+            << min.getColor() << ", "
+            << min.getHardness() << endl;
+    		return os;
+	}
 };
+    Mineral::Mineral(string n, string t, string clv, string col, string v, double h){
+        name = n;
+        crystalSystem = t;
+        cleavage = clv;
+        color = col;
+        formula = v;
+        hardness = h;
+    }
 
 #endif
