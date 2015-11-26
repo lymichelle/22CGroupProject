@@ -26,16 +26,16 @@ public:
  	bool isEmpty() const	{return count == 0;}
 	int size() const	    {return count;}
 	void clear()			{destroyTree(rootPtr); rootPtr = 0; count = 0;}
-	void preOrder(void visit(ItemType &)) const {_preorder(visit, rootPtr);}
-	void inOrder(void visit(ItemType &)) const  {_inorder(visit, rootPtr);}
-	void postOrder(void visit(ItemType &)) const{_postorder(visit, rootPtr);}
+	void preOrder(void visit(ItemType )) const {_preorder(visit, rootPtr);}
+	void inOrder(void visit(ItemType )) const  {_inorder(visit, rootPtr);}
+	void postOrder(void visit(ItemType )) const{_postorder(visit, rootPtr);}
 
 
 	// functions added by Jose Sepulveda
 	void indented() const{_indented(rootPtr);}
 	int getLevel(BinaryNode<ItemType>* nodePtr, ItemType data) const{return _getLevel(rootPtr, data, 1);}
 	bool deleteLeaves();
-	void breadth(void visit(ItemType &)) const{_breadth(visit, rootPtr);}
+	void breadth(void visit(ItemType )) const{_breadth(visit, rootPtr);}
 
 	// abstract functions to be implemented by derived class
 	//virtual bool insert(const ItemType & newData) = 0;
@@ -50,15 +50,15 @@ private:
 	BinaryNode<ItemType>* copyTree(const BinaryNode<ItemType>* nodePtr);
 
 	// internal traverse
-	void _preorder(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const;
-	void _inorder(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const;
-	void _postorder(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const;
+	void _preorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
+	void _inorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
+	void _postorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
 
 	// internal functions added by Jose Sepulveda
 	void _indented(BinaryNode<ItemType>* nodePtr) const;
 	int _getLevel(BinaryNode<ItemType>* nodePtr, ItemType data, int level) const;
 	BinaryNode<ItemType>* _deleteLeaves(BinaryNode<ItemType>* nodePtr);
-	void _breadth(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const;
+	void _breadth(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
 
 };
 
@@ -75,7 +75,7 @@ bool BinaryTree<ItemType>::deleteLeaves(){
 //Added by Jose Sepulveda
 //This iterative function utilizes a queue to print the breadth first traversal of the tree
 template<class ItemType>
-void BinaryTree<ItemType>::_breadth(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const{
+void BinaryTree<ItemType>::_breadth(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const{
 	if(nodePtr == nullptr)
 		return;
 	Queue<BinaryNode<ItemType>*> q;
@@ -155,7 +155,7 @@ void BinaryTree<ItemType>::destroyTree(BinaryNode<ItemType>* nodePtr)
 }
 
 template<class ItemType>
-void BinaryTree<ItemType>::_preorder(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const
+void BinaryTree<ItemType>::_preorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const
 {
 	if (nodePtr != 0)
 	{
@@ -167,7 +167,7 @@ void BinaryTree<ItemType>::_preorder(void visit(ItemType &), BinaryNode<ItemType
 }
 
 template<class ItemType>
-void BinaryTree<ItemType>::_inorder(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const
+void BinaryTree<ItemType>::_inorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const
 {
 		if (nodePtr != 0)
 	{
@@ -195,7 +195,7 @@ void BinaryTree<ItemType>::_indented(BinaryNode<ItemType>* nodePtr) const
 }
 
 template<class ItemType>
-void BinaryTree<ItemType>::_postorder(void visit(ItemType &), BinaryNode<ItemType>* nodePtr) const
+void BinaryTree<ItemType>::_postorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const
 {
 		if (nodePtr != 0)
 	{

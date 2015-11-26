@@ -10,9 +10,14 @@ using namespace std;
 
 #define MAX 1000
 
-void display(Mineral & anItem)
+void displayOLD(Mineral & anItem)
 {
    cout << "\t" << anItem << endl;
+}
+
+void display(Mineral *anItem)
+{
+   cout << "\t" << *anItem << endl;
 }
 
 int main()
@@ -29,8 +34,8 @@ int main()
 		cout << "No such file!" << endl;
 		exit(100);
 	}
-	BinarySearchTree<Mineral> tree;
-	BinarySearchTree<Mineral> secondTree;
+	BinarySearchTree<Mineral*> tree;
+	BinarySearchTree<Mineral*> secondTree;
 	while (!inFile.eof())
 	{
 		getline(inFile, name[count]);
@@ -41,24 +46,30 @@ int main()
 		getline(inFile, crys_system[count]);
 		getline(inFile, cleavage[count]);
 		inFile.get(ch);
-		Mineral mineral(name[count],
+		Mineral* mineral;
+		mineral = new Mineral(name[count],
                         crys_system[count],
                         cleavage[count],
                         color[count],
                         formula[count],
                         hardness[count]);
-		minVec.push_back(mineral);
-		tree.insert(mineral, mineral.getName());
-		secondTree.insert(mineral, mineral.getCystalSystem());
+		tree.insert(mineral, mineral->getName());
+		secondTree.insert(mineral, mineral->getCystalSystem());
 		count++;
 	}
 
 
-	for(auto v: minVec){
-        cout << v;
-	}
+
 
 	//tree.breadth(display);
+	cout << "Primary Tree: " << endl;
+	tree.inOrder(display);
+	cout << "Secondary Tree: " << endl;
+	secondTree.inOrder(display);
+	cout << "Deleting Ice from primary tree..." << endl;
+	cout << "Deleting Hexagonal from secondary tree..." << endl;
+	tree.remove("Ice");
+	secondTree.remove("Hexagonal");
 	cout << "Primary Tree: " << endl;
 	tree.inOrder(display);
 	cout << "Secondary Tree: " << endl;
