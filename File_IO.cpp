@@ -6,14 +6,12 @@
 
 #include "Mineral.h"
 #include "BST/BinarySearchTree.h"
+#include "RockDatabase.h"
 using namespace std;
 
 #define MAX 1000
 
-void displayOLD(Mineral & anItem)
-{
-   cout << "\t" << anItem << endl;
-}
+
 
 void display(Mineral *anItem)
 {
@@ -22,10 +20,10 @@ void display(Mineral *anItem)
 
 int main()
 {
-    vector<Mineral> minVec;
+/*
 	ifstream inFile;
-	string name[MAX], formula[MAX], color[MAX], crys_system[MAX], cleavage[MAX];
-	double hardness[MAX];
+	string name, formula, color, crys_system, cleavage;
+	double hardness;
 	char ch = ' ';
 	int count = 0, i = 0;
 	inFile.open("mineral.txt");
@@ -38,21 +36,21 @@ int main()
 	BinarySearchTree<Mineral*> secondTree;
 	while (!inFile.eof())
 	{
-		getline(inFile, name[count]);
-		getline(inFile, formula[count]);
-		getline(inFile, color[count]);
-		inFile >> hardness[count];
+		getline(inFile, name);
+		getline(inFile, formula);
+		getline(inFile, color);
+		inFile >> hardness;
 		inFile.get(ch);
-		getline(inFile, crys_system[count]);
-		getline(inFile, cleavage[count]);
+		getline(inFile, crys_system);
+		getline(inFile, cleavage);
 		inFile.get(ch);
 		Mineral* mineral;
-		mineral = new Mineral(name[count],
-                        crys_system[count],
-                        cleavage[count],
-                        color[count],
-                        formula[count],
-                        hardness[count]);
+		mineral = new Mineral(name,
+                        crys_system,
+                        cleavage,
+                        color,
+                        formula,
+                        hardness);
 		tree.insert(mineral, mineral->getName());
 		secondTree.insert(mineral, mineral->getCystalSystem());
 		count++;
@@ -76,5 +74,15 @@ int main()
 	secondTree.inOrder(display);
 	//tree.indented();
 	//system("pause");
+	*/
+	RockDatabase rockBase("mineral.txt");
+	rockBase.search("Idfwu");
+	cout << "Deleting Ice\n" << endl;
+	rockBase.deleteItem("Ice");
+	rockBase.print();
+	cout << "\nUndo delete Ice\n" << endl;
+	rockBase.undoDelete();
+	rockBase.print();
+
 	return 0;
 }

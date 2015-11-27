@@ -25,7 +25,7 @@ private:
 	BinaryNode<ItemType>* removeLeftmostNode(BinaryNode<ItemType>* nodePtr, ItemType & successor);
 
 	// search for target node
-	BinaryNode<ItemType>* findNode(BinaryNode<ItemType>* treePtr, const ItemType & target) const;
+	BinaryNode<ItemType>* findNode(BinaryNode<ItemType>* treePtr, const string target) const;
 
 public:
 	// insert a node at the correct location
@@ -33,7 +33,7 @@ public:
 	// remove a node if found
 	bool remove(const string target);
 	// find a target node
-	bool getEntry(const ItemType & target, ItemType & returnedItem) const;
+	bool getEntry(const string target, ItemType & returnedItem) const;
 
 };
 
@@ -60,9 +60,9 @@ bool BinarySearchTree<ItemType>::remove(const string target)
 //Modified by Jose Sepulveda
 //This member function calls the recursive findNode function. If an item is found it saves
 //its contents into the returnedItem variable and returns true, otherwise it returns false.
-/*
+
 template<class ItemType>
-bool BinarySearchTree<ItemType>::getEntry(const ItemType& anEntry, ItemType & returnedItem) const
+bool BinarySearchTree<ItemType>::getEntry(const string anEntry, ItemType & returnedItem) const
 {
 	BinaryNode<ItemType>* node = findNode(BinaryTree<ItemType>::rootPtr, anEntry);
 	if(node != nullptr){
@@ -72,7 +72,7 @@ bool BinarySearchTree<ItemType>::getEntry(const ItemType& anEntry, ItemType & re
 	return false;
 
 }
-*/
+
 
 
 //////////////////////////// private functions ////////////////////////////////////////////
@@ -171,20 +171,20 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::removeLeftmostNode(BinaryNode<
 
 //Modified by Jose Sepulveda
 //This member function calls itself until it either finds the data or doesn't
-/*
+
 template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::findNode(BinaryNode<ItemType>* nodePtr,
-                                                           const ItemType & target) const
+                                                           const string target) const
 {
 	if(nodePtr == nullptr)
 		return nullptr;
-	else if (nodePtr->getItem() == target)
+	else if (nodePtr->getKey() == target)
 		return nodePtr;
 	else{
 		BinaryNode<ItemType>* left = findNode(nodePtr->getLeftPtr(), target);
 		return left ? left : findNode(nodePtr->getRightPtr(), target);
 	}
 }
-*/
+
 
 #endif
