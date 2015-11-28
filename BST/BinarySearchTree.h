@@ -22,7 +22,7 @@ private:
 	BinaryNode<ItemType>* deleteNode(BinaryNode<ItemType>* targetNodePtr);
 
 	// remove the leftmost node in the left subtree of nodePtr
-	BinaryNode<ItemType>* removeLeftmostNode(BinaryNode<ItemType>* nodePtr, ItemType & successor);
+	BinaryNode<ItemType>* removeLeftmostNode(BinaryNode<ItemType>* nodePtr, ItemType & successor, string & key);
 
 	// search for target node
 	BinaryNode<ItemType>* findNode(BinaryNode<ItemType>* treePtr, const string target) const;
@@ -146,24 +146,28 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::deleteNode(BinaryNode<ItemType
 	else
 	{
 		ItemType newNodeValue;
-		nodePtr->setRightPtr(removeLeftmostNode(nodePtr->getRightPtr(), newNodeValue));
+		string newNodeKey;
+		nodePtr->setRightPtr(removeLeftmostNode(nodePtr->getRightPtr(), newNodeValue, newNodeKey));
 		nodePtr->setItem(newNodeValue);
+		nodePtr->setKey(newNodeKey);
 		return nodePtr;
 	}
 }
 
 template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::removeLeftmostNode(BinaryNode<ItemType>* nodePtr,
-                                                                     ItemType & successor)
+                                                                     ItemType & successor,
+                                                                     string & key)
 {
 	if (nodePtr->getLeftPtr() == 0)
 	{
 		successor = nodePtr->getItem();
+		key = nodePtr->getKey();
 		return deleteNode(nodePtr);
 	}
 	else
 	{
-		nodePtr->setLeftPtr(removeLeftmostNode(nodePtr->getLeftPtr(), successor));
+		nodePtr->setLeftPtr(removeLeftmostNode(nodePtr->getLeftPtr(), successor, key));
 		return nodePtr;
 	}
 }

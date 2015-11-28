@@ -14,16 +14,33 @@ class RockDatabase{
         ifstream _inFile;
         BinarySearchTree<Mineral*> _primaryTree;
         BinarySearchTree<Mineral*> _secondaryTree;
-        Stack<Mineral*> _undoStack;
+        // Stack that holds the the pointers to deleted data
+        Stack<Mineral*> _undoStackData;
+
+        // Stack that holds information on which tree it was
+        // deleted from; True = Primary, False = Secondary.
+        Stack<bool> _undoStackBool;
         int _count;
+
 
     public:
         RockDatabase(){};
         RockDatabase(string filePath){_count = 0; loadFromFile(filePath);}
-        void print(){_primaryTree.inOrder(display);}
+        void print(){
+            cout<<"Primary Tree, Key = Name\n";
+            _primaryTree.inOrder(display);
+            cout<<string(50, '-') << "\nSecondary Tree, Key = Crystal System\n";
+            _secondaryTree.inOrder(display);
+            //_primaryTree.breadth(display);
+            //_secondaryTree.indented();
+        }
         bool loadFromFile(string filePath);
         bool search(string target);
-        bool deleteItem(string target);
+
+        //Takes two arguments, the target to delete
+        //and a bool representing which tree to delete from
+        //True = Primary Tree, False = Secondary Tree.
+        bool deleteItem(string target, bool primary);
         bool undoDelete();
 
         static void display(Mineral *anItem)
@@ -81,12 +98,22 @@ bool RockDatabase::search(string target){
     return false;
 }
 
-bool RockDatabase::deleteItem(string target){
+bool RockDatabase::deleteItem(string target, bool primary){
     Mineral* mineral;
-    if(_primaryTree.getEntry(target, mineral)){
-        _undoStack.push(mineral);
-        _primaryTree.remove(target);
-        return true;
+    if(primary){
+        if(_primaryTree.getEntry(target, mineral)){
+            _undoStackData.push(mineral);
+            _undoStackBool.push(primary);
+            _primaryTree.remove(target);
+            return true;
+        }
+    }else{
+        if(_secondaryTree.getEntry(target, mineral)){
+            _undoStackData.push(mineral);
+            _undoStackBool.push(primary);
+            _secondaryTree.remove(target);
+            return true;
+        }
     }
     return false;
 
@@ -94,11 +121,17 @@ bool RockDatabase::deleteItem(string target){
 
 bool RockDatabase::undoDelete(){
     Mineral* mineral;
-    if(_undoStack.pop(mineral)){
-        _primaryTree.insert(mineral, mineral->getName());
+    bool primary;
+    if(_undoStackData.pop(mineral) && _undoStackBool.pop(primary)){
+        if(primary){
+            _primaryTree.insert(mineral, mineral->getName());
+        }else{
+            _secondaryTree.insert(mineral, mineral->getCystalSystem());
+        }
         return true;
     }
     return false;
 
 }
+
 #endif // ROCKDATABASE_H_INCLUDED

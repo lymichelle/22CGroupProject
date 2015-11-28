@@ -25,6 +25,7 @@ public:
 	void setItem(const ItemType & anItem) {item = anItem;}
 	void setLeftPtr(BinaryNode<ItemType>* left) {leftPtr = left;}
     void setRightPtr(BinaryNode<ItemType>* right) {rightPtr = right;}
+    void setKey(string k){key = k;}
 	// mutators
 	string getKey() const {return key;}
 	ItemType getItem() const	 {return item;}

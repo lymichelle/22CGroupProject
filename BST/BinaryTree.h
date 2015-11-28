@@ -33,7 +33,7 @@ public:
 
 	// functions added by Jose Sepulveda
 	void indented() const{_indented(rootPtr);}
-	int getLevel(BinaryNode<ItemType>* nodePtr, ItemType data) const{return _getLevel(rootPtr, data, 1);}
+	int getLevel(BinaryNode<ItemType>* nodePtr, string data) const{return _getLevel(rootPtr, data, 1);}
 	bool deleteLeaves();
 	void breadth(void visit(ItemType )) const{_breadth(visit, rootPtr);}
 
@@ -56,7 +56,7 @@ private:
 
 	// internal functions added by Jose Sepulveda
 	void _indented(BinaryNode<ItemType>* nodePtr) const;
-	int _getLevel(BinaryNode<ItemType>* nodePtr, ItemType data, int level) const;
+	int _getLevel(BinaryNode<ItemType>* nodePtr, string data, int level) const;
 	BinaryNode<ItemType>* _deleteLeaves(BinaryNode<ItemType>* nodePtr);
 	void _breadth(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
 
@@ -118,10 +118,10 @@ BinaryNode<ItemType>* BinaryTree<ItemType>::_deleteLeaves(BinaryNode<ItemType>* 
 //Added by Jose Sepulveda
 //_getLevel function is an internal function that counts down to the number of levels of the data given
 template<class ItemType>
-int BinaryTree<ItemType>::_getLevel(BinaryNode<ItemType>* nodePtr, ItemType data, int level) const{
+int BinaryTree<ItemType>::_getLevel(BinaryNode<ItemType>* nodePtr, string data, int level) const{
 	if(nodePtr == nullptr)
 		return 0;
-	if(nodePtr->getItem() == data)
+	if(nodePtr->getKey() == data)
 		return level;
 	int i = _getLevel(nodePtr->getLeftPtr(), data, level+1);
 	if(i != 0)
@@ -186,7 +186,7 @@ void BinaryTree<ItemType>::_indented(BinaryNode<ItemType>* nodePtr) const
 {
 		if (nodePtr)
 	{
-		ItemType item = nodePtr->getItem();
+		string item = nodePtr->getKey();
 		_indented(nodePtr->getRightPtr());
 		int i = getLevel(rootPtr, item);
 		cout << string(i, '\t') << "(" << i << ")" << item << endl << endl;
