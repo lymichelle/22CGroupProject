@@ -3,6 +3,7 @@
 
 #include "Mineral.h"
 #include "BST/BinarySearchTree.h"
+#include "HashTable.h"
 #include "BST/Stack.h"
 #include <iostream>
 #include <fstream>
@@ -14,6 +15,7 @@ class RockDatabase{
         ifstream _inFile;
         BinarySearchTree<Mineral*> _primaryTree;
         BinarySearchTree<Mineral*> _secondaryTree;
+        Hash<Mineral*> _hashTable;
         // Stack that holds the the pointers to deleted data
         Stack<Mineral*> _undoStackData;
 
@@ -31,6 +33,8 @@ class RockDatabase{
             _primaryTree.inOrder(display);
             cout<<string(50, '-') << "\nSecondary Tree, Key = Crystal System\n";
             _secondaryTree.inOrder(display);
+            cout<<string(50, '-') << "\nHash Table\n";
+            _hashTable.traverseHashTable(displayHash);
             //_primaryTree.breadth(display);
             //_secondaryTree.indented();
         }
@@ -46,6 +50,11 @@ class RockDatabase{
         static void display(Mineral *anItem)
         {
             cout << "\t" << *anItem << endl;
+        }
+
+        static void displayHash (HashNode<Mineral*> *aHashNode)
+        {
+            cout << *(aHashNode->_dataPtr) << endl;
         }
 
 
@@ -80,6 +89,7 @@ bool RockDatabase::loadFromFile(string filePath){
                         hardness);
 		_primaryTree.insert(mineral, mineral->getName());
 		_secondaryTree.insert(mineral, mineral->getCystalSystem());
+		_hashTable.insert(mineral->getName(), mineral);
 		_count++;
 	}
 	_inFile.close();

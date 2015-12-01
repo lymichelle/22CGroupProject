@@ -1,31 +1,34 @@
 #ifndef HASH_H
 #define HASH_H
 #include "HashNode.h"
+#include "Mineral.h"
+#include <string>
 
 using namespace std;
-
+template<class T>
 class Hash
 {
     public:
         Hash();
         virtual ~Hash();
-        HashNode **htable, **top;
+        HashNode<T> **htable, **top;
         int tableSize = 25;
 
-        int hashFunc(int);
-        void insert(int key);
-        void remove(int key);
-        int Search(int key);
-        void traverseHashTable(void visit(HashNode*));
+        int hashFunc(string key);
+        void insert(string key, T data);
+        void remove(string key);
+        int Search(string key);
+        void traverseHashTable(void visit(HashNode<T>*));
     protected:
     private:
 };
 
 //constructor.
-Hash::Hash()
+template<class T>
+Hash<T>::Hash()
 {
-    htable = new HashNode*[tableSize];
-    top = new HashNode*[tableSize];
+    htable = new HashNode<T>*[tableSize];
+    top = new HashNode<T>*[tableSize];
     for (int i = 0; i < tableSize; i++)
         {
             htable[i] = NULL;
@@ -35,36 +38,48 @@ Hash::Hash()
 
 
 //destructor.
-Hash::~Hash()
+template<class T>
+Hash<T>::~Hash()
 {
     delete [] htable;
 }
 
-/*
-int Hash::hashFunc(string key)
+template<class T>
+int Hash<T>::hashFunc(string key)
 {
     int sum = 0;
     for (int i = 0; i < key.length(); i++){
         sum += (int)key[i];
     }
+    cout << sum % tableSize << endl;
     return sum % tableSize;
-}*/
-
-//assigns index to key.
-int Hash::hashFunc(int key)
-{
-    return key % tableSize;
 }
 
+/*
+//assigns index to key.
+template<class T>
+int Hash<T>::hashFunc(string key)
+{
+
+    int n;
+    for(int i = 0; key.length(); i++){
+        n += key.at(i);
+    }
+
+    return stoi(key) % tableSize;
+}
+*/
+
 //insert key into hash table.
-void Hash::insert (int key)
+template<class T>
+void Hash<T>::insert (string key, T data)
 {
     int hashIndex = hashFunc(key);
-    HashNode *entry = htable[hashIndex];
+    HashNode<T> *entry = htable[hashIndex];
     if (entry == NULL)
         {
-            entry = new HashNode(key);
-            entry->key = key;
+            entry = new HashNode<T>(key, data);
+            entry->_dataPtr = data;
             entry->next = NULL;
             entry->prev = NULL;
             htable[hashIndex] = entry;
@@ -76,8 +91,8 @@ void Hash::insert (int key)
         {
             while (entry != NULL)
                 entry = entry->next;
-            entry = new HashNode(key);
-            entry->key = key;
+            entry = new HashNode<T>(key, data);
+            entry->_dataPtr = data;
             entry->next = NULL;
             entry->prev = top[hashIndex];
             top[hashIndex]->next = entry;
@@ -86,11 +101,12 @@ void Hash::insert (int key)
 }
 
 //remove key from hashtable.
-void Hash::remove(int key)
+template<class T>
+void Hash<T>::remove(string key)
 {
     bool flag = false;
     int hashIndex = hashFunc(key);
-    HashNode *entry = new HashNode;
+    HashNode<T> *entry = new HashNode<T>;
     entry = htable[hashIndex];
     while (entry != NULL){
 
@@ -109,11 +125,12 @@ void Hash::remove(int key)
 }
 
 //searches for a key in the hashtable.
-int Hash::Search(int key)
+template<class T>
+int Hash<T>::Search(string key)
  {
             bool flag = false;
             int hashIndex = hashFunc(key);
-            HashNode* entry = htable[hashIndex];
+            HashNode<T>* entry = htable[hashIndex];
             while (entry != NULL){
                 if (entry->key == key)
                 {
@@ -130,9 +147,10 @@ int Hash::Search(int key)
 }
 
 //traverses hashtable.
-void Hash::traverseHashTable(void visit(HashNode*))
+template<class T>
+void Hash<T>::traverseHashTable(void visit(HashNode<T>*))
 {
-    HashNode* traverser = new HashNode;
+    HashNode<T>* traverser = new HashNode<T>;
 
     for (int i = 0; i < tableSize; i++){
         traverser = htable[i];
