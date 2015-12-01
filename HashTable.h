@@ -16,8 +16,9 @@ class Hash
 
         int hashFunc(string key);
         void insert(string key, T data);
-        void remove(string key);
+        bool remove(string key);
         int Search(string key);
+        bool getEntry(string key, T & data);
         void traverseHashTable(void visit(HashNode<T>*));
     protected:
     private:
@@ -51,7 +52,6 @@ int Hash<T>::hashFunc(string key)
     for (int i = 0; i < key.length(); i++){
         sum += (int)key[i];
     }
-    cout << sum % tableSize << endl;
     return sum % tableSize;
 }
 
@@ -102,25 +102,34 @@ void Hash<T>::insert (string key, T data)
 
 //remove key from hashtable.
 template<class T>
-void Hash<T>::remove(string key)
+bool Hash<T>::remove(string key)
 {
     bool flag = false;
     int hashIndex = hashFunc(key);
     HashNode<T> *entry = new HashNode<T>;
     entry = htable[hashIndex];
-    while (entry != NULL){
+    while (entry != nullptr){
 
         if (entry->key == key){
+            if(entry->prev != nullptr){
+                HashNode<T> *pCurr;
+                pCurr = entry->prev;
+                pCurr->next = entry->next;
+            }
+            if(entry->next != nullptr){
+                HashNode<T> *pNext;
+                pNext = entry->next;
+                pNext->prev = entry->prev;
+            }
             flag = true;
-            delete entry;
-        }
-
-        else if (entry->key != key)
+            return true;
+        }else if (entry->key != key)
             entry = entry->next;
     }
 
     if (!flag){
-        cout << key << " does not exist in the table. Nothing has been deleted." << endl;
+        //cout << key << " does not exist in the table. Nothing has been deleted." << endl;
+        return false;
     }
 }
 
@@ -146,6 +155,29 @@ int Hash<T>::Search(string key)
             }
 }
 
+template<class T>
+bool Hash<T>::getEntry(string key, T & data)
+ {
+            bool flag = false;
+            int hashIndex = hashFunc(key);
+            HashNode<T>* entry = htable[hashIndex];
+            while (entry != NULL){
+                if (entry->key == key)
+                {
+                    cout << entry->key << " found!" << endl;
+                    flag = true;
+                    data = entry->getData();
+                    cout << flag << endl;
+                    return true;
+                }
+                entry = entry->next;
+            }
+            if (!flag){
+                cout << key << " not found." << endl;
+                return false;
+            }
+}
+
 //traverses hashtable.
 template<class T>
 void Hash<T>::traverseHashTable(void visit(HashNode<T>*))
@@ -158,9 +190,14 @@ void Hash<T>::traverseHashTable(void visit(HashNode<T>*))
         //if hash block is not null
         //visit it.
         if (htable[i]!=NULL){
+            int j = 0;
+            cout << "Stored @ index: " << i << ", " << j << endl;
             visit(htable[i]);
+
             while (traverser->next!=NULL){
+                j++;
                 traverser = traverser->next;
+                cout << "Stored @ index: " << i << ", " << j << endl;
                 visit(traverser);
                 }
         }
