@@ -83,20 +83,23 @@ void Hash<T>::insert (string key, T data)
             entry->next = NULL;
             entry->prev = NULL;
             htable[hashIndex] = entry;
-            top[hashIndex] = entry;
+			top[hashIndex] = entry;
 
             cout << (htable[hashIndex])->getKey() << " inserted" << endl;
         }
     else
         {
-            while (entry != NULL)
-                entry = entry->next;
+			HashNode<T> *pPrev;
+			while (entry != NULL){
+				pPrev = entry;
+				entry = entry->next;
+			}
             entry = new HashNode<T>(key, data);
             entry->_dataPtr = data;
             entry->next = NULL;
-            entry->prev = top[hashIndex];
-            top[hashIndex]->next = entry;
-            top[hashIndex] = entry;
+            entry->prev = pPrev;
+            pPrev->next = entry;
+            //top[hashIndex] = entry;
             cout << key << " inserted" << endl;
     }
 }
@@ -197,13 +200,13 @@ void Hash<T>::traverseHashTable(void visit(HashNode<T>*))
         //visit it.
         if (htable[i]!=NULL){
             int j = 0;
-            cout << "Stored @ index: " << i << ", " << j << endl;
+            //cout << "Stored @ index: " << i << ", " << j << endl;
             visit(htable[i]);
 
             while (traverser->next!=NULL){
                 j++;
                 traverser = traverser->next;
-                cout << "Stored @ index: " << i << ", " << j << endl;
+                //cout << "Stored @ index: " << i << ", " << j << endl;
                 visit(traverser);
                 }
         }

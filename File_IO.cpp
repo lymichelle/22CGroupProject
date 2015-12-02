@@ -12,11 +12,14 @@ using namespace std;
 #define MAX 1000
 
 
-class Menu
-{
+class DatabaseMenu{
 private:
+	RockDatabase rockBase;
 
 public:
+	DatabaseMenu(){ rockBase.loadFromFile("mineral.txt"); 
+	mainMenu();
+	}
 	void mainMenu();
 	void caseSearch();
 	void caseList();
@@ -33,38 +36,46 @@ void display(Mineral *anItem)
    cout << "\t" << *anItem << endl;
 }
 
+
+
 int main()
 {
 
 	RockDatabase rockBase("mineral.txt");
 	//rockBase.deleteItem("Hexagonal", false);
-    //rockBase.deleteItem("Ice", true);
-    rockBase.deleteItem("Ice");
+	//rockBase.deleteItem("Ice", true);
+	//rockBase.deleteItem("Ice");
 
-    rockBase.printHash();
-    cout << string(50, '-') << endl;
-    rockBase.printPrimarySorted();
-    cout << string(50, '-') << endl;
-    rockBase.printSecondarySorted();
-    cout << string(50, '-') << endl;
-    rockBase.undoDelete();
-    rockBase.printHash();
-    cout << string(50, '-') << endl;
-    rockBase.printPrimarySorted();
-    cout << string(50, '-') << endl;
-    rockBase.printSecondarySorted();
-    cout << string(50, '-') << endl;
+	//rockBase.printHash();
+	//cout << string(50, '-') << endl;
+	// rockBase.printPrimarySorted();
 
+	//cout << string(50, '-') << endl;
+	//rockBase.printDatabase();
+	//rockBase.undoDelete();
+	//rockBase.printDatabase();
+	// cout << string(50, '-') << endl;
+	//rockBase.undoDelete();
+	// rockBase.printHash();
+	//cout << string(50, '-') << endl;
+	//rockBase.printPrimarySorted();
+	//cout << string(50, '-') << endl;
+	// rockBase.printSecondarySorted();
+	// cout << string(50, '-') << endl;
+
+	DatabaseMenu menu;
+	cin.get();
 	return 0;
 }
 
-void Menu::mainMenu()
+
+void DatabaseMenu::mainMenu()
 {
 	char choice;
 	bool quit = false;
 	cout << "Insert welcome message here." << endl;
 
-// add Jose's input validation thing
+	// add Jose's input validation thing
 
 	while (!quit)
 	{	// update below
@@ -119,48 +130,66 @@ void Menu::mainMenu()
 
 /*************************************************
 *************************************************/
-void Menu::caseAdd()
+void DatabaseMenu::caseAdd()
 {
+	rockBase.addMineral();
 }
 
-void Menu::caseUndo()
+void DatabaseMenu::caseUndo()
+{
+	if (rockBase.undoDelete()){
+		cout << "Delete was reverted." << endl;
+		return;
+	}
+	cout << "Nothing to undo." << endl;
+
+}
+
+/*************************************************
+*************************************************/
+void DatabaseMenu::caseDelete()
+{
+	string mineralName;
+	bool valid = true;
+	cout << "What mineral would you like to delete?\n" << endl;
+		cin >> mineralName;
+		if (rockBase.deleteItem(mineralName)){
+			cout << "Successfully deleted, " << mineralName << endl;
+			return;
+		}
+		cout << "Sorry, " << mineralName << " not found." << endl;
+
+		return;
+}
+
+/*************************************************
+*************************************************/
+void DatabaseMenu::caseStatistic()
 {
 }
 
 /*************************************************
 *************************************************/
-void Menu::caseDelete()
-{
-}
-
-/*************************************************
-*************************************************/
-void Menu::caseStatistic()
-{
-}
-
-/*************************************************
-*************************************************/
-void Menu::caseWriteFile()
+void DatabaseMenu::caseWriteFile()
 {
 
 }
 
 /*bool outFileValid(ofstream &outFile)
 {
-	outFile.open("file_name.txt");
-	if (!outFile.is_open())
-	{
-		cout << "Error opening out put file!" << endl;
-		return false;
-	}
-	return true;
+outFile.open("file_name.txt");
+if (!outFile.is_open())
+{
+cout << "Error opening out put file!" << endl;
+return false;
+}
+return true;
 
 }*/
 
 /*************************************************
 *************************************************/
-void Menu::caseSearch()
+void DatabaseMenu::caseSearch()
 {
 	char subChoice;
 	bool valid = true;
@@ -196,7 +225,7 @@ void Menu::caseSearch()
 
 /*************************************************
 *************************************************/
-void Menu::caseList()
+void DatabaseMenu::caseList()
 {
 	char subChoice;
 	bool valid = true;
@@ -205,9 +234,8 @@ void Menu::caseList()
 	{
 		cout << "Please select how to display the website data from the options below.\n" << endl;
 		cout << "U - display unsorted\n"
-			<< "P - display by domain name\n"
-			<< "O - display by countries\n"
-			<< "I - display special\n"
+			<< "P - display sorted by name\n"
+			<< "S - display sorted by crystal system\n"
 			<< "R - Return to previous menu\n" << endl;
 		cin >> subChoice;
 		subChoice = toupper(subChoice);
@@ -217,19 +245,18 @@ void Menu::caseList()
 		{
 		case 'U':
 			cout << "Unsorted List as Followed:" << endl;
+			rockBase.printHash();
 			break;
 		case 'P':
-
+			rockBase.printPrimarySorted();
 			break;
 
-		case 'O':
-			break;
-
-		case 'I':
-
+		case 'S':
+			rockBase.printSecondarySorted();
 			break;
 
 		case 'R':
+			return;
 			break;
 
 		default:

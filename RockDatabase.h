@@ -36,6 +36,19 @@ class RockDatabase{
             //_primaryTree.breadth(display);
             //_secondaryTree.indented();
         }
+		void printDatabase(){
+			cout << "Primary Tree, Key = Mineral Name\n";
+			_primaryTree.inOrder(display);
+			cout << string(50, '-') << endl;
+			cout << "Secondary Tree, Key = Crystal System\n";
+			_secondaryTree.inOrder(display);
+			cout << string(50, '-') << endl;
+			cout << "Hash Table\n";
+			_hashTable.traverseHashTable(displayHash);
+			cout << string(50, '-') << endl;
+
+
+		}
         void printSecondarySorted(){
             cout<<string(50, '-') << "\nSecondary Tree, Key = Crystal System\n";
             _secondaryTree.inOrder(display);
@@ -45,21 +58,23 @@ class RockDatabase{
         }
 
         void addMineral(){
-            string name, crystSyst, form, cleav;
+            string name, crystSyst, form, cleav, col;
             double hard;
             cout << "Enter the mineral name: ";
             cin >> name;
-            cout << "/nEnter the crystal system: ";
+            cout << "\nEnter the crystal system: ";
             cin >> crystSyst;
-            cout <<"/nEnter the formula: ";
+			cout << "Enter the color: ";
+			cin >> col;
+            cout <<"\nEnter the formula: ";
             cin >> form;
-            cout <<"/nEnter the hardness: ";
+            cout <<"\nEnter the hardness: ";
             cin >> hard;
-            cout << "/nEnter the cleavage: ";
+            cout << "\nEnter the cleavage: ";
             cin >> cleav;
             cout << endl;
             Mineral * mineral;
-            mineral = new Mineral(name, crystSyst, cleav, "purple", form, hard);
+            mineral = new Mineral(name, crystSyst, cleav, col, form, hard);
             insertMineral(mineral);
 
         }
@@ -79,7 +94,7 @@ class RockDatabase{
 
         static void displayHash (HashNode<Mineral*> *aHashNode)
         {
-            cout << *(aHashNode->_dataPtr) << endl;
+            cout << "\t" << *(aHashNode->_dataPtr) << endl;
         }
 
 
@@ -167,7 +182,7 @@ bool RockDatabase::deleteItem(string target){
     if(_hashTable.getEntry(target, mineral)){
         _undoStackData.push(mineral);
         _hashTable.remove(target);
-        _primaryTree.remove(mineral);
+        _primaryTree.remove(target);
         _secondaryTree.remove(mineral);
         return true;
     }
