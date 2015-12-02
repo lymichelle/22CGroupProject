@@ -39,12 +39,21 @@ int main()
 	RockDatabase rockBase("mineral.txt");
 	//rockBase.deleteItem("Hexagonal", false);
     //rockBase.deleteItem("Ice", true);
+    rockBase.deleteItem("Ice");
 
-	rockBase.print();
-	rockBase.deleteItem("Ice", 0);
-	rockBase.print();
-	rockBase.undoDelete();
-	rockBase.print();
+    rockBase.printHash();
+    cout << string(50, '-') << endl;
+    rockBase.printPrimarySorted();
+    cout << string(50, '-') << endl;
+    rockBase.printSecondarySorted();
+    cout << string(50, '-') << endl;
+    rockBase.undoDelete();
+    rockBase.printHash();
+    cout << string(50, '-') << endl;
+    rockBase.printPrimarySorted();
+    cout << string(50, '-') << endl;
+    rockBase.printSecondarySorted();
+    cout << string(50, '-') << endl;
 
 	return 0;
 }

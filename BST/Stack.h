@@ -63,7 +63,6 @@ template <class T>
 bool Stack<T>::push(T item)
 {
    StackNode *newNode; // Pointer to a new node
-
    // Allocate a new node and store num there.
    newNode = new StackNode;
    if (!newNode)

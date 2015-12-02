@@ -97,6 +97,7 @@ void Hash<T>::insert (string key, T data)
             entry->prev = top[hashIndex];
             top[hashIndex]->next = entry;
             top[hashIndex] = entry;
+            cout << key << " inserted" << endl;
     }
 }
 
@@ -121,6 +122,11 @@ bool Hash<T>::remove(string key)
                 pNext = entry->next;
                 pNext->prev = entry->prev;
             }
+            if(entry->next == nullptr && entry->prev == nullptr){
+                htable[hashIndex] = nullptr;
+                top[hashIndex] = nullptr;
+            }
+
             flag = true;
             return true;
         }else if (entry->key != key)
@@ -164,16 +170,16 @@ bool Hash<T>::getEntry(string key, T & data)
             while (entry != NULL){
                 if (entry->key == key)
                 {
-                    cout << entry->key << " found!" << endl;
+                   // cout << entry->key << " found!" << endl;
                     flag = true;
                     data = entry->getData();
-                    cout << flag << endl;
+                    //cout << flag << endl;
                     return true;
                 }
                 entry = entry->next;
             }
             if (!flag){
-                cout << key << " not found." << endl;
+               // cout << key << " not found." << endl;
                 return false;
             }
 }

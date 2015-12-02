@@ -44,6 +44,24 @@ public:
 	string getColor() const { return color; }
 
 
+    	//Overloaded Comparison operators so the Employee type works with the BST
+	bool operator< (const Mineral& emp) const{
+		return name < emp.getName();
+	}
+	bool operator> (const Mineral& emp) const{
+		return name > emp.getName();
+	}
+		bool operator<= (const Mineral& emp) const{
+		return name <= emp.getName();
+	}
+	bool operator>= (const Mineral& emp) const{
+		return name >= emp.getName();
+	}
+	bool operator== (const Mineral& emp) const{
+		return name == emp.getName();
+	}
+
+
 	//Overloaded copy constructor
 	Mineral& operator= (const Mineral& min) {
 		name = min.getName();

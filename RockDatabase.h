@@ -21,32 +21,57 @@ class RockDatabase{
 
         // Stack that holds information on which tree it was
         // deleted from; True = Primary, False = Secondary.
-        Stack<int> _undoStackBool;
+       // Stack<int> _undoStackBool;
         int _count;
 
 
     public:
         RockDatabase(){};
         RockDatabase(string filePath){_count = 0; loadFromFile(filePath);}
-        void print(){
-            //cout<<"Primary Tree, Key = Name\n";
-            //_primaryTree.inOrder(display);
-            //cout<<string(50, '-') << "\nSecondary Tree, Key = Crystal System\n";
-            //_secondaryTree.inOrder(display);
-            cout<<string(50, '-') << "\nHash Table\n";
-            _hashTable.traverseHashTable(displayHash);
+        void printPrimarySorted(){
+            cout<<"Primary Tree, Key = Name\n";
+            _primaryTree.inOrder(display);
+            //cout<<string(50, '-') << "\nHash Table\n";
+            //_hashTable.traverseHashTable(displayHash);
             //_primaryTree.breadth(display);
             //_secondaryTree.indented();
         }
+        void printSecondarySorted(){
+            cout<<string(50, '-') << "\nSecondary Tree, Key = Crystal System\n";
+            _secondaryTree.inOrder(display);
+        }
+        void printHash(){
+            _hashTable.traverseHashTable(displayHash);
+        }
+
+        void addMineral(){
+            string name, crystSyst, form, cleav;
+            double hard;
+            cout << "Enter the mineral name: ";
+            cin >> name;
+            cout << "/nEnter the crystal system: ";
+            cin >> crystSyst;
+            cout <<"/nEnter the formula: ";
+            cin >> form;
+            cout <<"/nEnter the hardness: ";
+            cin >> hard;
+            cout << "/nEnter the cleavage: ";
+            cin >> cleav;
+            cout << endl;
+            Mineral * mineral;
+            mineral = new Mineral(name, crystSyst, cleav, "purple", form, hard);
+            insertMineral(mineral);
+
+        }
+        void insertMineral(Mineral* min){
+            _hashTable.insert(min->getName(), min);
+            _primaryTree.insert(min, min->getName());
+            _secondaryTree.insert(min, min->getCystalSystem());
+        }
         bool loadFromFile(string filePath);
         bool search(string target);
-
-        //Takes two arguments, the target to delete
-        //and a bool representing which tree to delete from
-        //True = Primary Tree, False = Secondary Tree.
-        bool deleteItem(string target, int structureId);
+        bool deleteItem(string target);
         bool undoDelete();
-
         static void display(Mineral *anItem)
         {
             cout << "\t" << *anItem << endl;
@@ -56,6 +81,7 @@ class RockDatabase{
         {
             cout << *(aHashNode->_dataPtr) << endl;
         }
+
 
 
 };
@@ -99,7 +125,7 @@ bool RockDatabase::loadFromFile(string filePath){
 
 bool RockDatabase::search(string target){
     Mineral* mineral;
-    if(_primaryTree.getEntry(target, mineral)){
+    if(_hashTable.getEntry(target, mineral)){
         cout << "FOUND!";
         display(mineral);
         return true;
@@ -107,7 +133,7 @@ bool RockDatabase::search(string target){
     cout << "Sorry, '" << target << "' not found." << endl;
     return false;
 }
-
+/*
 bool RockDatabase::deleteItem(string target, int structureId){
     Mineral* mineral;
     if(structureId == 0){
@@ -134,19 +160,27 @@ bool RockDatabase::deleteItem(string target, int structureId){
     return false;
 
 }
+*/
+
+bool RockDatabase::deleteItem(string target){
+    Mineral* mineral;
+    if(_hashTable.getEntry(target, mineral)){
+        _undoStackData.push(mineral);
+        _hashTable.remove(target);
+        _primaryTree.remove(mineral);
+        _secondaryTree.remove(mineral);
+        return true;
+    }
+    return false;
+
+}
 
 bool RockDatabase::undoDelete(){
     Mineral* mineral;
-    int structureId;
-    if(_undoStackData.pop(mineral) && _undoStackBool.pop(structureId)){
-        if(structureId == 0){
-            _hashTable.insert(mineral->getName(), mineral);
-        }else if(structureId == 1){
-            _primaryTree.insert(mineral, mineral->getName());
-        }else if(structureId == 2){
-            _secondaryTree.insert(mineral, mineral->getCystalSystem());
-        }
-
+    if(_undoStackData.pop(mineral)){
+         _hashTable.insert(mineral->getName(), mineral);
+         _primaryTree.insert(mineral, mineral->getName());
+         _secondaryTree.insert(mineral, mineral->getCystalSystem());
         return true;
     }
     return false;

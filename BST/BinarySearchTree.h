@@ -17,6 +17,7 @@ private:
 
 	// internal remove node: locate and delete target node under nodePtr subtree
 	BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, const string target, bool & success);
+    BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, const ItemType target, bool & success);
 
 	// delete target node from tree, called by internal remove node
 	BinaryNode<ItemType>* deleteNode(BinaryNode<ItemType>* targetNodePtr);
@@ -32,6 +33,7 @@ public:
     bool insert(const ItemType & newEntry, string key);
 	// remove a node if found
 	bool remove(const string target);
+    bool remove(const ItemType target);
 	// find a target node
 	bool getEntry(const string target, ItemType & returnedItem) const;
 
@@ -51,6 +53,14 @@ bool BinarySearchTree<ItemType>::insert(const ItemType & newEntry, string key)
 
 template<class ItemType>
 bool BinarySearchTree<ItemType>::remove(const string target)
+{
+	bool isSuccessful = false;
+	BinaryTree<ItemType>::rootPtr = _remove(BinaryTree<ItemType>::rootPtr, target, isSuccessful);
+	return isSuccessful;
+}
+
+template<class ItemType>
+bool BinarySearchTree<ItemType>::remove(const ItemType target)
 {
 	bool isSuccessful = false;
 	BinaryTree<ItemType>::rootPtr = _remove(BinaryTree<ItemType>::rootPtr, target, isSuccessful);
@@ -111,6 +121,30 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* 
 	if (nodePtr->getKey() > target)
 		nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success));
 	else if (nodePtr->getKey() < target)
+		nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success));
+	else
+	{
+		nodePtr = deleteNode(nodePtr);
+		success = true;
+	}
+	return nodePtr;
+}
+
+template<class ItemType>
+BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* nodePtr,
+                                                          const ItemType target,
+                                                          bool & success)
+
+{
+
+	if (nodePtr == 0)
+	{
+		success = false;
+		return 0;
+	}
+	if (nodePtr->getItem() > target)
+		nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success));
+	else if (nodePtr->getItem() < target)
 		nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success));
 	else
 	{
