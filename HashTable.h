@@ -14,7 +14,7 @@ class Hash
         virtual ~Hash();
         HashNode<T> **htable;
         //HashNode<T> **top;
-        int tableSize = 25;
+        int tableSize = 5;
         int numOfBlocksInHashFilled = 0;
         int numOfCollisions = 0;
         int hashFunc(string key);
@@ -132,8 +132,21 @@ bool Hash<T>::remove(string key)
             if(entry->next == nullptr && entry->prev == nullptr){
                 htable[hashIndex] = nullptr;
                // top[hashIndex] = nullptr;
-                entry = nullptr;
+                entry->_dataPtr = nullptr;
             }
+            if(entry->next != nullptr && entry->prev == nullptr) //it's thetop
+            {
+                htable[hashIndex] = entry->next;
+                entry->_dataPtr = nullptr;
+               // HashNode<T> *pCurr;
+                //pCurr = entry->next;
+                //pCurr->prev = entry->prev;
+
+
+
+
+            }
+
 
             flag = true;
             return true;
