@@ -17,7 +17,9 @@ private:
 
 	// internal remove node: locate and delete target node under nodePtr subtree
 	BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, const string target, bool & success);
-    BinaryNode<ItemType>* _remove(BinaryNode<ItemType>* nodePtr, const ItemType target, bool & success);
+	BinaryNode<ItemType>* _removeByData(BinaryNode<ItemType>* nodePtr,
+		ItemType target,
+		bool & success);
 
 	// delete target node from tree, called by internal remove node
 	BinaryNode<ItemType>* deleteNode(BinaryNode<ItemType>* targetNodePtr);
@@ -60,10 +62,10 @@ bool BinarySearchTree<ItemType>::remove(const string target)
 }
 
 template<class ItemType>
-bool BinarySearchTree<ItemType>::remove(const ItemType target)
+bool BinarySearchTree<ItemType>::remove( ItemType target)
 {
 	bool isSuccessful = false;
-	BinaryTree<ItemType>::rootPtr = _remove(BinaryTree<ItemType>::rootPtr, target, isSuccessful);
+	BinaryTree<ItemType>::rootPtr = _removeByData(BinaryTree<ItemType>::rootPtr, target, isSuccessful);
 	return isSuccessful;
 }
 
@@ -131,22 +133,22 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* 
 }
 
 template<class ItemType>
-BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* nodePtr,
-                                                          const ItemType target,
+BinaryNode<ItemType>* BinarySearchTree<ItemType>::_removeByData(BinaryNode<ItemType>* nodePtr,
+                                                          ItemType target,
                                                           bool & success)
 
 {
 
+
+
 	if (nodePtr == 0)
 	{
 		success = false;
-		return 0;
+		return nullptr;
 	}
-	if (nodePtr->getItem() > target)
-		nodePtr->setLeftPtr(_remove(nodePtr->getLeftPtr(), target, success));
-	else if (nodePtr->getItem() < target)
-		nodePtr->setRightPtr(_remove(nodePtr->getRightPtr(), target, success));
-	else
+	nodePtr->setLeftPtr(_removeByData(nodePtr->getLeftPtr(), target, success));
+	nodePtr->setRightPtr(_removeByData(nodePtr->getRightPtr(), target, success));
+	if (target == nodePtr->getItem())
 	{
 		nodePtr = deleteNode(nodePtr);
 		success = true;

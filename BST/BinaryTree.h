@@ -29,6 +29,9 @@ public:
 	void preOrder(void visit(ItemType )) const {_preorder(visit, rootPtr);}
 	void inOrder(void visit(ItemType )) const  {_inorder(visit, rootPtr);}
 	void postOrder(void visit(ItemType )) const{_postorder(visit, rootPtr);}
+	void preOrder(ostream& out){ _preorder(out, rootPtr); }
+	void inOrder(ostream& out){ _inorder(out, rootPtr); }
+	void postOrder(ostream& out){ _postorder(out, rootPtr);}
 
 
 	// functions added by Jose Sepulveda
@@ -53,6 +56,10 @@ private:
 	void _preorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
 	void _inorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
 	void _postorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
+
+	void _preorder(ostream& out, BinaryNode<ItemType>* nodePtr);
+	void _inorder(ostream& out, BinaryNode<ItemType>* nodePtr);
+	void _postorder(ostream& out, BinaryNode<ItemType>* nodePtr);
 
 	// internal functions added by Jose Sepulveda
 	void _indented(BinaryNode<ItemType>* nodePtr) const;
@@ -167,6 +174,18 @@ void BinaryTree<ItemType>::_preorder(void visit(ItemType ), BinaryNode<ItemType>
 }
 
 template<class ItemType>
+void BinaryTree<ItemType>::_preorder(ostream& out, BinaryNode<ItemType>* nodePtr)
+{
+	if (nodePtr != 0)
+	{
+		ItemType item = nodePtr->getItem();
+		out << *item << "\n";
+		_preorder(out, nodePtr->getLeftPtr());
+		_preorder(out, nodePtr->getRightPtr());
+	}
+}
+
+template<class ItemType>
 void BinaryTree<ItemType>::_inorder(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const
 {
 		if (nodePtr != 0)
@@ -175,6 +194,17 @@ void BinaryTree<ItemType>::_inorder(void visit(ItemType ), BinaryNode<ItemType>*
 		_inorder(visit, nodePtr->getLeftPtr());
 		visit(item);
 		_inorder(visit, nodePtr->getRightPtr());
+	}
+}
+
+template<class ItemType>
+void BinaryTree<ItemType>::_inorder(ostream& out, BinaryNode<ItemType>* nodePtr){
+	if (nodePtr != 0)
+	{
+		ItemType item = nodePtr->getItem();
+		_inorder(out, nodePtr->getLeftPtr());
+		out << *item << "\n";
+		_inorder(out, nodePtr->getRightPtr());
 	}
 }
 
@@ -203,6 +233,18 @@ void BinaryTree<ItemType>::_postorder(void visit(ItemType ), BinaryNode<ItemType
 		_postorder(visit, nodePtr->getLeftPtr());
 		_postorder(visit, nodePtr->getRightPtr());
 		visit(item);
+	}
+}
+
+template<class ItemType>
+void BinaryTree<ItemType>::_postorder(ostream& out, BinaryNode<ItemType>* nodePtr)
+{
+	if (nodePtr != 0)
+	{
+		ItemType item = nodePtr->getItem();
+		_postorder(out, nodePtr->getLeftPtr());
+		_postorder(out, nodePtr->getRightPtr());
+		out << *item << "\n";
 	}
 }
 

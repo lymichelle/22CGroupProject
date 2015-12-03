@@ -17,7 +17,7 @@ private:
 	RockDatabase rockBase;
 
 public:
-	DatabaseMenu(){ rockBase.loadFromFile("mineral.txt"); 
+	DatabaseMenu(){ rockBase.loadFromFile("mineral.txt");
 	mainMenu();
 	}
 	void mainMenu();
@@ -28,6 +28,7 @@ public:
 	void caseUndo();
 	void caseWriteFile();
 	void caseStatistic();
+	~DatabaseMenu(){rockBase.saveToFile();}
 };
 
 

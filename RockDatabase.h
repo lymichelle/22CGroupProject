@@ -13,12 +13,13 @@ using namespace std;
 class RockDatabase{
     private:
         ifstream _inFile;
+        ofstream _outFile;
         BinarySearchTree<Mineral*> _primaryTree;
         BinarySearchTree<Mineral*> _secondaryTree;
         Hash<Mineral*> _hashTable;
         // Stack that holds the the pointers to deleted data
         Stack<Mineral*> _undoStackData;
-
+	void toRehash();
         // Stack that holds information on which tree it was
         // deleted from; True = Primary, False = Secondary.
        // Stack<int> _undoStackBool;
@@ -26,6 +27,12 @@ class RockDatabase{
 
 
     public:
+        void saveToFile(){
+			_outFile.open("output.txt");
+			_hashTable.traverseHashTable(_outFile);
+			_outFile.close();
+		}
+
         RockDatabase(){};
         RockDatabase(string filePath){_count = 0; loadFromFile(filePath);}
         void printPrimarySorted(){
@@ -96,8 +103,6 @@ class RockDatabase{
         {
             cout << "\t" << *(aHashNode->_dataPtr) << endl;
         }
-
-
 
 };
 
@@ -200,6 +205,14 @@ bool RockDatabase::undoDelete(){
     }
     return false;
 
+}
+
+void RockDatabase::toRehash()
+{
+    if (_hashTable.getLoadFactor() > 0.5)
+    {
+        _hashTable.rehashInsert();
+    }
 }
 
 #endif // ROCKDATABASE_H_INCLUDED

@@ -77,12 +77,12 @@ public:
 	//friend ostream& operator<<(ostream& os,  Employee& emp);
 	friend inline ostream& operator<<(ostream& os, Mineral& min)
 	{
-		os << min.getName() << ", "
-            << min.getCystalSystem() << ", "
-            << min.getFormula() << ", "
-            << min.getCleavage() << ", "
-            << min.getColor() << ", "
-            << min.getHardness() << endl;
+		os << "Name:\t" << min.getName() << endl
+            << "CrystSyst:\t" << min.getCystalSystem() << endl
+            << "Formual:\t" << min.getFormula() << endl
+            << "Cleav:\t" << min.getCleavage() << endl
+            << "Color:\t" << min.getColor() << endl
+            << "Hardness:\t" << min.getHardness() << endl;
     		return os;
 	}
 };
