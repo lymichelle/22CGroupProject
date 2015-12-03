@@ -28,6 +28,9 @@ class RockDatabase{
 
 
     public:
+        void indented(){
+            _primaryTree.indented();
+        }
         void saveToFile(string fileName){
 			_outFile.open(fileName);
 			_hashTable.traverseHashTable(_outFile);
@@ -70,7 +73,8 @@ class RockDatabase{
 
         void addMineral(){
             string name, crystSyst, form, cleav, col;
-            int hard;
+            string hard;
+            double hardness = 0.0;
             cin.ignore();
             cout << "Enter the mineral name: ";
             getline(cin, name);
@@ -83,12 +87,16 @@ class RockDatabase{
             //do{
                 cout <<"\nEnter the hardness: ";
                 cin >> hard;
+                while(!stringToDouble(hard, hardness)){
+                    cout << "\nPlease enter a valid hardness(0.0-10.0): ";
+                    cin >> hard;
+                }
             //}while()
             cout << "\nEnter the cleavage: ";
             cin >> cleav;
             cout << endl;
             Mineral * mineral;
-            mineral = new Mineral(name, crystSyst, cleav, col, form, hard);
+            mineral = new Mineral(name, crystSyst, cleav, col, form, hardness);
             insertMineral(mineral);
 
         }
@@ -126,6 +134,7 @@ bool RockDatabase::loadFromFile(string filePath){
 		cout << "No such file!" << endl;
 		return false;
 	}
+	char c;
     while (!_inFile.eof())
 	{
         getline(_inFile, temp, ' ');
@@ -141,7 +150,9 @@ bool RockDatabase::loadFromFile(string filePath){
 		getline(_inFile, temp, ' ');
 		getline(_inFile, hardness);
 		stringToDouble(hardness, hard);
-		_inFile.get(ch);
+		_inFile >> c;
+		//getline(_inFile, temp, '\n');
+		//_inFile.get(ch);
 
 		Mineral* mineral;
 		mineral = new Mineral(name,
@@ -150,9 +161,7 @@ bool RockDatabase::loadFromFile(string filePath){
                         color,
                         formula,
                         hard);
-		_primaryTree.insert(mineral, mineral->getName());
-		_secondaryTree.insert(mineral, mineral->getCystalSystem());
-		_hashTable.insert(mineral->getName(), mineral);
+		insertMineral(mineral);
 		_count++;
 	}
 	_inFile.close();
@@ -162,15 +171,15 @@ bool RockDatabase::loadFromFile(string filePath){
 //"9.6"
 bool RockDatabase::stringToDouble(string str, double & dub){
     size_t pos = str.find('.');
-    cout << str << endl;
+    //cout << str << endl;
     if(pos!=string::npos){
         string wholeNum = str.substr(0, pos);
 
         string deciNum = str.substr(pos+1);
-        cout << wholeNum << " . " << deciNum << endl;
+       // cout << wholeNum << " . " << deciNum << endl;
         if(isStrNum(wholeNum) && isStrNum(deciNum)){
             dub = stod(wholeNum + "." + deciNum);
-            cout << "asdfas";
+            //cout << "asdfas";
             return true;
         }
 

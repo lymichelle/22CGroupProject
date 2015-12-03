@@ -16,6 +16,7 @@ class Hash
         //HashNode<T> **top;
         int tableSize = 5;
         int numOfBlocksInHashFilled = 0;
+        int numElements;
         int numOfCollisions = 0;
         int hashFunc(string key);
         int rehashFunc(string key);
@@ -47,6 +48,7 @@ Hash<T>::Hash()
             htable[i] = NULL;
             //top[i] = NULL;
         }
+        numElements = 0;
 }
 
 
@@ -106,6 +108,8 @@ void Hash<T>::insert (string key, T data)
             //top[hashIndex] = entry;
             cout << key << " inserted" << endl;
     }
+    numElements++;
+    cout << numElements << endl;
 }
 
 //remove key from hashtable.
@@ -249,7 +253,7 @@ void Hash<T>::traverseHashTable(ostream& out)
             while (traverser->next!=NULL){
                 j++;
                 traverser = traverser->next;
-                //cout << "Stored @ index: " << i << ", " << j << endl;
+              //  cout << "Stored @ index: " << i << ", " << j << endl;
                 out << *traverser->getData() << endl;
                 }
         }

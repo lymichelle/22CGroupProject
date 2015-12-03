@@ -3,7 +3,7 @@ CrystSyst: Isometric
 Formual: NaCl
 Cleav: Perfect
 Color: White
-Hardness: 2.08648e-317
+Hardness: 2.08696e-317
 
 Name: Ice
 CrystSyst: Hexagonal

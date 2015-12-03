@@ -7,6 +7,8 @@
 
 #include "BinaryNode.h"
 #include "Queue.h"
+#include <cmath>
+#include <iomanip>
 
 template<class ItemType>
 class BinaryTree
@@ -28,6 +30,7 @@ public:
 	void clear()			{destroyTree(rootPtr); rootPtr = 0; count = 0;}
 	void preOrder(void visit(ItemType )) const {_preorder(visit, rootPtr);}
 	void inOrder(void visit(ItemType )) const  {_inorder(visit, rootPtr);}
+	bool findEntries(void visit(ItemType ), string const target) const;
 	void postOrder(void visit(ItemType )) const{_postorder(visit, rootPtr);}
 	void preOrder(ostream& out){ _preorder(out, rootPtr); }
 	void inOrder(ostream& out){ _inorder(out, rootPtr); }
@@ -66,8 +69,38 @@ private:
 	int _getLevel(BinaryNode<ItemType>* nodePtr, string data, int level) const;
 	BinaryNode<ItemType>* _deleteLeaves(BinaryNode<ItemType>* nodePtr);
 	void _breadth(void visit(ItemType ), BinaryNode<ItemType>* nodePtr) const;
+	void printBreadthFirst( BinaryNode<ItemType>* nodePtr, Queue<BinaryNode<ItemType> *> *q, int level, void visit(ItemType anItem, int lvl));
 
 };
+
+//printBreadthFirst
+//Prints indented level-order (i.e. breadth-first) tree.
+template<class ItemType>
+void BinaryTree<ItemType>::printBreadthFirst( BinaryNode<ItemType>* nodePtr, Queue<BinaryNode<ItemType> *> *q, int level, void visit(ItemType anItem, int lvl))
+{
+     //std::cout << "Queue count : " << q->getCount() << std::endl;
+     q->dequeue(nodePtr);
+     //std::cout << "Dequeued : " << q->getCount() << std::endl;
+    // Call display dequeue node
+    float n = round(sqrt(level));
+
+    visit(nodePtr->getItem(), n);
+
+    if (nodePtr != NULL && !nodePtr->isLeaf()){
+        if (nodePtr->getLeftPtr())
+        {
+            q->enqueue(nodePtr->getLeftPtr());
+        }
+
+        if (nodePtr->getRightPtr())
+        {
+            q->enqueue(nodePtr->getRightPtr());
+        }
+    }
+    if( q->getCount() == 0) return;
+    printBreadthFirst(nodePtr, q, level+1, visit);
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 template<class ItemType>
@@ -98,6 +131,36 @@ void BinaryTree<ItemType>::_breadth(void visit(ItemType ), BinaryNode<ItemType>*
 		if(node->getRightPtr() != nullptr)
 			q.enqueue(node->getRightPtr());
 	}
+
+
+
+}
+
+template<class ItemType>
+bool BinaryTree<ItemType>::findEntries(void visit(ItemType ), string const target) const{
+	bool found = false;
+	BinaryNode<ItemType>* nodePtr = rootPtr;
+	if(nodePtr == nullptr)
+		return false;
+	Queue<BinaryNode<ItemType>*> q;
+	Queue<BinaryNode<ItemType>*> q2;
+	q.enqueue(nodePtr);
+	while(!q.isEmpty()){
+		BinaryNode<ItemType>* node;
+		q.dequeue(node);
+		string key = node->getKey();
+		//cout << "\t" << node->getItem() << endl;
+		if(key == target){
+            ItemType item = node->getItem();
+            visit(item);
+            found = true;
+        }
+		if(node->getLeftPtr() != nullptr)
+			q.enqueue(node->getLeftPtr());
+		if(node->getRightPtr() != nullptr)
+			q.enqueue(node->getRightPtr());
+	}
+	return found;
 
 
 

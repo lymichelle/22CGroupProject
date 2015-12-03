@@ -43,7 +43,7 @@ void display(Mineral *anItem)
 int main()
 {
 
-	RockDatabase rockBase("mineral.txt");
+	//RockDatabase rockBase("mineral.txt");
 	//rockBase.deleteItem("Hexagonal", false);
 	//rockBase.deleteItem("Ice", true);
 	//rockBase.deleteItem("Ice");
@@ -75,7 +75,7 @@ void DatabaseMenu::mainMenu()
 {
 	char choice;
 	bool quit = false;
-	cout << "Insert welcome message here." << endl;
+	cout << "Welcom to our mineral databse!" << endl;
 
 	// add Jose's input validation thing
 
@@ -165,7 +165,9 @@ void DatabaseMenu::caseDelete()
 	string mineralName;
 	bool valid = true;
 	cout << "What mineral would you like to delete?\n" << endl;
-		cin >> mineralName;
+		cin.ignore();
+		getline(cin, mineralName);
+
 		if (rockBase.deleteItem(mineralName)){
 			cout << "Successfully deleted, " << mineralName << endl;
 			return;
@@ -272,7 +274,8 @@ void DatabaseMenu::caseList()
 		cout << "U - display unsorted\n"
 			<< "P - display sorted by name\n"
 			<< "S - display sorted by crystal system\n"
-			<< "R - Return to previous menu\n" << endl;
+			<< "I - display indented tree by primary\n"
+			<< "R - return to previous menu\n" << endl;
 		cin >> subChoice;
 		subChoice = toupper(subChoice);
 		cout << endl;
@@ -290,6 +293,10 @@ void DatabaseMenu::caseList()
 		case 'S':
 			rockBase.printSecondarySorted();
 			break;
+
+        case 'I':
+            rockBase.indented();
+            break;
 
 		case 'R':
 			return;
