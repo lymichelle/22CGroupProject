@@ -209,4 +209,12 @@ bool RockDatabase::undoDelete(){
 
 }
 
+void RockDatabase::toRehash()
+{
+    if (_hashTable.getLoadFactor() > 0.5)
+    {
+        _hashTable.rehashInsert();
+    }
+}
+
 #endif // ROCKDATABASE_H_INCLUDED
