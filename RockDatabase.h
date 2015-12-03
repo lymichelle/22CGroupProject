@@ -19,7 +19,7 @@ class RockDatabase{
         Hash<Mineral*> _hashTable;
         // Stack that holds the the pointers to deleted data
         Stack<Mineral*> _undoStackData;
-
+	void toRehash();
         // Stack that holds information on which tree it was
         // deleted from; True = Primary, False = Secondary.
        // Stack<int> _undoStackBool;
@@ -103,8 +103,6 @@ class RockDatabase{
         {
             cout << "\t" << *(aHashNode->_dataPtr) << endl;
         }
-
-
 
 };
 
