@@ -1,37 +1,9 @@
-Name:	Diamond
-CrystSyst:	Isometric
-Formual:	C
-Cleav:	Poor
-Color:	Colorless
-Hardness:	10
-
-Name:	Aquamarine
-CrystSyst:	Hexagonal
-Formual:	Be3Al2SiO6
-Cleav:	Poor
-Color:	Blue
-Hardness:	7.5
-
-Name:	Dolomite
-CrystSyst:	Hexagonal
-Formual:	CaMg(CO3)
-Cleav:	Poor
-Color:	Colorless
-Hardness:	3.5
-
 Name:	Cummingtonite
 CrystSyst:	Monoclinic
 Formual:	(Mg,Fe)2(Mg,Fe)5Si8O22(OH)2
 Cleav:	Good
 Color:	Brown
 Hardness:	5
-
-Name:	Cuprite
-CrystSyst:	Isometric
-Formual:	Cu2O
-Cleav:	Poor
-Color:	Red
-Hardness:	3.5
 
 Name:	Bixbyite
 CrystSyst:	Isometric
@@ -40,40 +12,12 @@ Cleav:	Poor
 Color:	Black
 Hardness:	6
 
-Name:	Halite(Salt)
-CrystSyst:	Isometric
-Formual:	NaCl
+Name:	Diaspore
+CrystSyst:	Orthohombic
+Formual:	AlO(OH)
 Cleav:	Perfect
-Color:	White
-Hardness:	2
-
-Name:	Garnet
-CrystSyst:	Isometric
-Formual:	Ca3Al2Si3O12
-Cleav:	Indiscernible
-Color:	All Colors
+Color:	Colorless
 Hardness:	6.5
-
-Name:	Arsenic
-CrystSyst:	Hexagonal
-Formual:	As
-Cleav:	Perfect
-Color:	Gray
-Hardness:	3.5
-
-Name:	Fluorite
-CrystSyst:	Isometric
-Formual:	CaF2
-Cleav:	Perfect
-Color:	All Colors
-Hardness:	4
-
-Name:	Hematite
-CrystSyst:	Hexagonal
-Formual:	Fe2O3
-Cleav:	None
-Color:	Black
-Hardness:	5
 
 Name:	Bustamite
 CrystSyst:	Triclinic
@@ -82,6 +26,27 @@ Cleav:	Good
 Color:	Pink
 Hardness:	5.5
 
+Name:	Garnet
+CrystSyst:	Isometric
+Formual:	Ca3Al2Si3O12
+Cleav:	Indiscernible
+Color:	All Colors
+Hardness:	6.5
+
+Name:	Hematite
+CrystSyst:	Hexagonal
+Formual:	Fe2O3
+Cleav:	None
+Color:	Black
+Hardness:	5
+
+Name:	Diamond
+CrystSyst:	Isometric
+Formual:	C
+Cleav:	Poor
+Color:	Colorless
+Hardness:	10
+
 Name:	Analcime
 CrystSyst:	Isometric
 Formual:	NaAlSi2O6*H2O
@@ -89,12 +54,12 @@ Cleav:	Indiscernible
 Color:	White
 Hardness:	5
 
-Name:	Graphite
+Name:	Dolomite
 CrystSyst:	Hexagonal
-Formual:	C
-Cleav:	Perfect
-Color:	Gray
-Hardness:	1.5
+Formual:	CaMg(CO3)
+Cleav:	Poor
+Color:	Colorless
+Hardness:	3.5
 
 Name:	Amethyst
 CrystSyst:	Hexagonal
@@ -102,13 +67,6 @@ Formual:	SiO2
 Cleav:	Indiscernible
 Color:	Purple
 Hardness:	7
-
-Name:	Diaspore
-CrystSyst:	Orthohombic
-Formual:	AlO(OH)
-Cleav:	Perfect
-Color:	Colorless
-Hardness:	6.5
 
 Name:	Ice
 CrystSyst:	Hexagonal
@@ -124,10 +82,59 @@ Cleav:	Poor
 Color:	Green
 Hardness:	7.5
 
+Name:	Ice
+CrystSyst:	Hexagonal
+Formual:	H2O
+Cleav:	None
+Color:	Colorless
+Hardness:	1.5
+
+Name:	Fluorite
+CrystSyst:	Isometric
+Formual:	CaF2
+Cleav:	Perfect
+Color:	All Colors
+Hardness:	4
+
+Name:	Cuprite
+CrystSyst:	Isometric
+Formual:	Cu2O
+Cleav:	Poor
+Color:	Red
+Hardness:	3.5
+
+Name:	Halite(Salt)
+CrystSyst:	Isometric
+Formual:	NaCl
+Cleav:	Perfect
+Color:	White
+Hardness:	2
+
+Name:	Aquamarine
+CrystSyst:	Hexagonal
+Formual:	Be3Al2SiO6
+Cleav:	Poor
+Color:	Blue
+Hardness:	7.5
+
 Name:	Chalcanthite
 CrystSyst:	Triclinic
 Formual:	CuSO4*5H2O
 Cleav:	Indiscernible
 Color:	Blue
 Hardness:	2.5
+
+Name:	Arsenic
+CrystSyst:	Hexagonal
+Formual:	As
+Cleav:	Perfect
+Color:	Gray
+Hardness:	3.5
+
+Name:	Graphite
+CrystSyst:	Hexagonal
+Formual:	C
+Cleav:	Perfect
+Color:	Gray
+Hardness:	1.5
 

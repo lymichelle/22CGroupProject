@@ -209,10 +209,12 @@ bool RockDatabase::undoDelete(){
 
 void RockDatabase::toRehash()
 {
+    Mineral* mineral;
+    mineral = new Mineral("ruby", "alsdkf", "asdf", "asdf", "sdaf", 1.2);
     if (_hashTable.getLoadFactor() > 0.5)
     {
-        _hashTable.rehashInsert();
+        _hashTable.rehashInsert("Hello Jose", mineral);
     }
 }
 
-#endif // ROCKDATABASE_H_INCLUDED
+#endif // ROCKDATABASE_H_INCLUiDED
