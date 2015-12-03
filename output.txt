@@ -1,3 +1,4 @@
+asfasf
 Name:	Halite(Salt)
 CrystSyst:	Isometric
 Formual:	NaCl
