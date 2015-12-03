@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cctype>
 
 using namespace std;
 class RockDatabase{
@@ -27,11 +28,14 @@ class RockDatabase{
 
 
     public:
-        void saveToFile(){
-			_outFile.open("output.txt");
+        void saveToFile(string fileName){
+			_outFile.open(fileName);
 			_hashTable.traverseHashTable(_outFile);
 			_outFile.close();
 		}
+		bool stringToDouble(string str, double & dub);
+		bool isStrNum(string str);
+		bool secondarySearch(string target);
 
         RockDatabase(){};
         RockDatabase(string filePath){_count = 0; loadFromFile(filePath);}
@@ -66,17 +70,20 @@ class RockDatabase{
 
         void addMineral(){
             string name, crystSyst, form, cleav, col;
-            double hard;
+            int hard;
+            cin.ignore();
             cout << "Enter the mineral name: ";
-            cin >> name;
+            getline(cin, name);
             cout << "\nEnter the crystal system: ";
             cin >> crystSyst;
-			cout << "Enter the color: ";
+			cout << "\nEnter the color: ";
 			cin >> col;
             cout <<"\nEnter the formula: ";
             cin >> form;
-            cout <<"\nEnter the hardness: ";
-            cin >> hard;
+            //do{
+                cout <<"\nEnter the hardness: ";
+                cin >> hard;
+            //}while()
             cout << "\nEnter the cleavage: ";
             cin >> cleav;
             cout << endl;
@@ -90,25 +97,28 @@ class RockDatabase{
             _primaryTree.insert(min, min->getName());
             _secondaryTree.insert(min, min->getCystalSystem());
         }
+        void showHashStats(){_hashTable.showStatistics();}
         bool loadFromFile(string filePath);
         bool search(string target);
+        bool secondarySearch(string target) const;
         bool deleteItem(string target);
         bool undoDelete();
         static void display(Mineral *anItem)
         {
-            cout << "\t" << *anItem << endl;
+            cout << "" << *anItem << endl;
         }
 
         static void displayHash (HashNode<Mineral*> *aHashNode)
         {
-            cout << "\t" << *(aHashNode->_dataPtr) << endl;
+            cout << "" << *(aHashNode->_dataPtr) << endl;
         }
 
 };
 
 bool RockDatabase::loadFromFile(string filePath){
-   	string name, formula, color, crys_system, cleavage;
-	double hardness;
+   	string name, formula, color, crys_system, cleavage, hardness;
+	string temp;
+	double hard;
 	char ch = ' ';
 	_inFile.open(filePath);
 	if (_inFile.fail())
@@ -118,21 +128,28 @@ bool RockDatabase::loadFromFile(string filePath){
 	}
     while (!_inFile.eof())
 	{
+        getline(_inFile, temp, ' ');
 		getline(_inFile, name);
-		getline(_inFile, formula);
-		getline(_inFile, color);
-		_inFile >> hardness;
-		_inFile.get(ch);
+		getline(_inFile, temp, ' ');
 		getline(_inFile, crys_system);
+		getline(_inFile, temp, ' ');
+		getline(_inFile, formula);
+		getline(_inFile, temp, ' ');
 		getline(_inFile, cleavage);
+		getline(_inFile, temp, ' ');
+		getline(_inFile, color);
+		getline(_inFile, temp, ' ');
+		getline(_inFile, hardness);
+		stringToDouble(hardness, hard);
 		_inFile.get(ch);
+
 		Mineral* mineral;
 		mineral = new Mineral(name,
                         crys_system,
                         cleavage,
                         color,
                         formula,
-                        hardness);
+                        hard);
 		_primaryTree.insert(mineral, mineral->getName());
 		_secondaryTree.insert(mineral, mineral->getCystalSystem());
 		_hashTable.insert(mineral->getName(), mineral);
@@ -142,15 +159,49 @@ bool RockDatabase::loadFromFile(string filePath){
 	return true;
 
 }
+//"9.6"
+bool RockDatabase::stringToDouble(string str, double & dub){
+    size_t pos = str.find('.');
+    cout << str << endl;
+    if(pos!=string::npos){
+        string wholeNum = str.substr(0, pos);
+
+        string deciNum = str.substr(pos+1);
+        cout << wholeNum << " . " << deciNum << endl;
+        if(isStrNum(wholeNum) && isStrNum(deciNum)){
+            dub = stod(wholeNum + "." + deciNum);
+            cout << "asdfas";
+            return true;
+        }
+
+    }
+    return false;
+}
+
+bool RockDatabase::isStrNum(string str){
+    for(int i = 0; i < str.length(); i++)
+        if(!isdigit(str[i]))
+            return false;
+    return true;
+
+}
 
 bool RockDatabase::search(string target){
     Mineral* mineral;
     if(_hashTable.getEntry(target, mineral)){
-        cout << "FOUND!";
+        //cout << "FOUND!";
         display(mineral);
         return true;
     }
-    cout << "Sorry, '" << target << "' not found." << endl;
+    //cout << "Sorry, '" << target << "' not found." << endl;
+    return false;
+}
+
+bool RockDatabase::secondarySearch(string target){
+    Mineral* mineral;
+    if(_secondaryTree.findEntries(display, target)){
+        return true;
+    }
     return false;
 }
 /*

@@ -27,8 +27,9 @@ public:
 	void caseDelete();
 	void caseUndo();
 	void caseWriteFile();
+	void caseInfo();
 	void caseStatistic();
-	~DatabaseMenu(){rockBase.saveToFile();}
+	~DatabaseMenu(){rockBase.saveToFile("backup.txt");}
 };
 
 
@@ -88,6 +89,7 @@ void DatabaseMenu::mainMenu()
 			<< "L - List \n"
 			<< "S - Search for \n"
 			<< "W - Write data into file\n"
+			<< "I - Info about developers\n"
 			<< "Q - Quit\n";
 
 		cin >> choice;
@@ -117,6 +119,9 @@ void DatabaseMenu::mainMenu()
 		case 'N': // undo delete
 			caseUndo();
 			break;
+        case 'I':
+            caseInfo();
+            break;
 		case 'Q': // quit
 			quit = true;
 			break;
@@ -126,11 +131,18 @@ void DatabaseMenu::mainMenu()
 		cout << endl;
 	}
 
-	cout << "Insert \"thank you\" message here." << endl;
+	cout << "Goodbye." << endl;
 }
 
 /*************************************************
 *************************************************/
+void DatabaseMenu::caseInfo(){
+    cout << "Michelle Ly: File I/O" << endl;
+    cout << "John Dwyer: Screen I/O" << endl;
+    cout << "Nausheen Sujela: Hash structure/functions" << endl;
+    cout << "Jose Sepulveda: BST, Integration" << endl;
+
+}
 void DatabaseMenu::caseAdd()
 {
 	rockBase.addMineral();
@@ -167,13 +179,19 @@ void DatabaseMenu::caseDelete()
 *************************************************/
 void DatabaseMenu::caseStatistic()
 {
+
+    rockBase.showHashStats();
 }
 
 /*************************************************
 *************************************************/
 void DatabaseMenu::caseWriteFile()
 {
-
+    string str;
+    cout << "Enter a filename to write to: ";
+    cin.ignore();
+    getline(cin, str);
+    rockBase.saveToFile(str);
 }
 
 /*bool outFileValid(ofstream &outFile)
@@ -200,18 +218,35 @@ void DatabaseMenu::caseSearch()
 		cout << "Please select a search type from the options below:\n" << endl
 			<< "P - Primary Search\n" // change names later
 			<< "S - Secondary Search\n"
-			<< "R - Return to previous menu\n" << endl;
+			<< "Q - Return to previous menu\n" << endl;
 		cin >> subChoice;
 		subChoice = toupper(subChoice);
 		cout << endl;
 
 		switch (subChoice)
 		{
-		case 'P': // primary key
+		case 'P':{ // primary key
+            string s;
+            cout << "Enter a seach query: ";
+            cin.ignore();
+            getline(cin, s);// secondary key
+            if(!rockBase.search(s)){
+                cout << "Nothing found.\n";
+            }
+
 			break;
-		case 'S': // secondary key
+			}
+		case 'S':{
+            string s;
+            cout << "Enter a seach query: ";
+            cin.ignore();
+            getline(cin, s);// secondary key
+            if(!rockBase.secondarySearch(s)){
+                cout << "Nothing found.\n";
+            }
 			break;
-		case 'R': // previous
+			}
+		case 'Q': // previous
 			valid = false;
 			break;
 		default:
@@ -233,7 +268,7 @@ void DatabaseMenu::caseList()
 
 	while (valid)
 	{
-		cout << "Please select how to display the website data from the options below.\n" << endl;
+		cout << "Please select a display method.\n" << endl;
 		cout << "U - display unsorted\n"
 			<< "P - display sorted by name\n"
 			<< "S - display sorted by crystal system\n"
