@@ -239,7 +239,44 @@ void Hash<T>::traverseHashTable(ostream& out)
         }
     }
 }
-=======
+
+//count number of linked lists.
+template <class T>
+int Hash::<T>getNumOfLinkedLists()
+{
+    int numOfLL = 0; //Linked list counter.
+    HashNode<T>* traverser = new HashNode<T>; //traverses the array.
+    //for the length of the array
+    for (int i = 0; i < tableSize; i++){
+        traverser = htable[i]; //traverse the array
+        if (htable[i]!=NULL){ //if a spot in the array is not null
+            if (entry->next!=NULL){ //check entry->next.
+                numOfLL++; //if entry->next is not null, increment LL counter.
+            }
+        }
+    }
+    return numOfLL;
+}
+
+//count average number of nodes in the linked lists.
+//count number of linked lists.
+template <class T>
+int Hash::<T>getAvgNumOfNodes()
+{
+    int nodeCount = 0; //Linked list counter.
+    HashNode<T>* traverser = new HashNode<T>; //traverses the array.
+    //for the length of the array
+    for (int i = 0; i < tableSize; i++){
+        traverser = htable[i]; //traverse the array
+        if (htable[i]!=NULL){ //if a spot in the array is not null
+            while (entry->next!=NULL){ //check entry->next.
+                nodeCount++; //if entry->next is not null, increment LL counter.
+            }
+        }
+    }
+    return nodeCount;
+}
+
 //check if number is prime.
 template <class T>
 bool Hash<T>::isPrime(int x)
@@ -343,8 +380,12 @@ void Hash<T>::showStatistics()
 {
     std::cout << "Load Factor: " << numOfBlocksInHashFilled << "/" << tableSize << std::endl;
     std::cout << "Number of collisions: " << numOfCollisions << std::endl;
+    std::cout << "Number of linked lists: " << getNumOfLinkedLists() << std::endl;
+    std::cout << "Average number of nodes: " << getAvgNumOfNodes() << std::endl;
 }
 
 
->>>>>>> 9dc4d25403051d0c7c887f1871ad69b6a48c8069
+
+
+
 #endif // HASH_H
