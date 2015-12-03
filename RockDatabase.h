@@ -13,6 +13,7 @@ using namespace std;
 class RockDatabase{
     private:
         ifstream _inFile;
+        ofstream _outFile;
         BinarySearchTree<Mineral*> _primaryTree;
         BinarySearchTree<Mineral*> _secondaryTree;
         Hash<Mineral*> _hashTable;
@@ -26,6 +27,12 @@ class RockDatabase{
 
 
     public:
+        void saveToFile(){
+			_outFile.open("output.txt");
+			_hashTable.traverseHashTable(_outFile);
+			_outFile.close();
+		}
+
         RockDatabase(){};
         RockDatabase(string filePath){_count = 0; loadFromFile(filePath);}
         void printPrimarySorted(){

@@ -20,6 +20,7 @@ class Hash
         int Search(string key);
         bool getEntry(string key, T & data);
         void traverseHashTable(void visit(HashNode<T>*));
+        void traverseHashTable(ostream& out);
     protected:
     private:
 };
@@ -213,4 +214,28 @@ void Hash<T>::traverseHashTable(void visit(HashNode<T>*))
     }
 }
 
+template<class T>
+void Hash<T>::traverseHashTable(ostream& out)
+{
+    HashNode<T>* traverser = new HashNode<T>;
+
+    for (int i = 0; i < tableSize; i++){
+        traverser = htable[i];
+
+        //if hash block is not null
+        //visit it.
+        if (htable[i]!=NULL){
+            int j = 0;
+            //cout << "Stored @ index: " << i << ", " << j << endl;
+            out << *htable[i]->getData() << endl;
+
+            while (traverser->next!=NULL){
+                j++;
+                traverser = traverser->next;
+                //cout << "Stored @ index: " << i << ", " << j << endl;
+                out << *traverser->getData() << endl;
+                }
+        }
+    }
+}
 #endif // HASH_H
