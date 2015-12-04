@@ -95,6 +95,7 @@ void Hash<T>::insert (string key, T data)
     else
         {
             HashNode<T> *pPrev;
+            pPrev = entry->prev;
             while (entry != NULL){
                 pPrev = entry;
                 entry = entry->next;
@@ -339,6 +340,7 @@ int Hash<T>::resizeTable()
         resizeTable();
     }
     tableSize = newTableSize;
+    return tableSize;
 }
 
 template <class T>
