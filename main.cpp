@@ -1,7 +1,8 @@
+//This is Jose's, Nausheen's, Michelle's, and John's database program
+
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <vector>
 
 
 #include "Mineral.h"
@@ -42,29 +43,6 @@ void display(Mineral *anItem)
 
 int main()
 {
-
-	//RockDatabase rockBase("mineral.txt");
-	//rockBase.deleteItem("Hexagonal", false);
-	//rockBase.deleteItem("Ice", true);
-	//rockBase.deleteItem("Ice");
-
-	//rockBase.printHash();
-	//cout << string(50, '-') << endl;
-	// rockBase.printPrimarySorted();
-
-	//cout << string(50, '-') << endl;
-	//rockBase.printDatabase();
-	//rockBase.undoDelete();
-	//rockBase.printDatabase();
-	// cout << string(50, '-') << endl;
-	//rockBase.undoDelete();
-	// rockBase.printHash();
-	//cout << string(50, '-') << endl;
-	//rockBase.printPrimarySorted();
-	//cout << string(50, '-') << endl;
-	// rockBase.printSecondarySorted();
-	// cout << string(50, '-') << endl;
-
 	DatabaseMenu menu;
 	cin.get();
 	return 0;
@@ -75,13 +53,14 @@ void DatabaseMenu::mainMenu()
 {
 	char choice;
 	bool quit = false;
-	cout << "Welcom to our mineral databse!" << endl;
+	cout << string(50, '-') << endl;
+	cout << "Welcome to Jose's, Nausheen's, Michelle's, and John's mineral database!" << endl;
 
-	// add Jose's input validation thing
+
 
 	while (!quit)
 	{	// update below
-		cout << "Please input the letter corresponding to the function you'd like to use from the list below." << endl
+		cout << "Please select a letter." << endl
 			<< "A - Add New \n"
 			<< "D - Delete \n"
 			<< "N - Undo Delete\n"
@@ -196,17 +175,7 @@ void DatabaseMenu::caseWriteFile()
     rockBase.saveToFile(str);
 }
 
-/*bool outFileValid(ofstream &outFile)
-{
-outFile.open("file_name.txt");
-if (!outFile.is_open())
-{
-cout << "Error opening out put file!" << endl;
-return false;
-}
-return true;
 
-}*/
 
 /*************************************************
 *************************************************/

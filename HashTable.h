@@ -1,3 +1,8 @@
+/* HASHTABLE CLASS
+Program to implement hash table to store, traverse, and edit template ADT data.
+*/
+
+//Header files.
 #ifndef HASH_H
 #define HASH_H
 #include "HashNode.h"
@@ -5,7 +10,9 @@
 #include <string>
 #include <ctime>
 #include <cmath>
+
 using namespace std;
+
 template<class T>
 class Hash
 {
@@ -13,42 +20,38 @@ class Hash
         Hash();
         virtual ~Hash();
         HashNode<T> **htable;
-        //HashNode<T> **top;
-        int tableSize = 5;
-        int numOfBlocksInHashFilled = 0;
-        int numElements;
-        int numOfCollisions = 0;
-        int hashFunc(string key);
-        int rehashFunc(string key);
-        void rehashInsert(string key, T data);
+        int tableSize = 49;
         void insert(string key, T data);
         bool remove(string key);
         int Search(string key);
         bool getEntry(string key, T & data);
         void traverseHashTable(void visit(HashNode<T>*));
         void traverseHashTable(ostream& out);
-        bool isPrime(int x);
-        int resizeTable();
-        float getLoadFactor();
         void showStatistics();
-        int getNumOfLinkedLists();
-        int getAvgNumOfNodes();
+        float getLoadFactor();
+
     protected:
     private:
+        int numOfBlocksInHashFilled = 0;
+        int numElements;
+        int numOfCollisions = 0;
+        int getNumOfLinkedLists();
+        float getAvgNumOfNodes();
+        int getNumOfBlocksFilled();
+        int hashFunc(string key);
+        int rehashFunc(string key);
 };
 
 //constructor.
 template<class T>
 Hash<T>::Hash()
 {
-    htable = new HashNode<T>*[tableSize];
-    //top = new HashNode<T>*[tableSize];
+    htable = new HashNode<T>*[tableSize]; //allocating memory for htable.
     for (int i = 0; i < tableSize; i++)
         {
-            htable[i] = NULL;
-            //top[i] = NULL;
+            htable[i] = NULL; //initialize contents of htable to null.
         }
-        numElements = 0;
+    numElements = 0; //number of total elements is initialized to 0.
 }
 
 
@@ -59,9 +62,13 @@ Hash<T>::~Hash()
     delete [] htable;
 }
 
+//hash function.
 template<class T>
 int Hash<T>::hashFunc(string key)
 {
+    //first takes the sum of the ASCII values of all the characters in the key
+    //and then raises it to the power of the sum of the ASCII values of all the
+    //characters of another string.
     int sum = 0;
     for (int i = 0; i < key.length(); i++){
         sum += (int)key[i];
@@ -72,6 +79,7 @@ int Hash<T>::hashFunc(string key)
         powerSum += (int)power[i];
     }
 
+    //mod the value with tableSize to get hash index.
     return (sum^(powerSum)) % tableSize;
 }
 
@@ -81,6 +89,8 @@ void Hash<T>::insert (string key, T data)
 {
     int hashIndex = hashFunc(key);
     HashNode<T> *entry = htable[hashIndex];
+    //if index in htable is empty
+    //insert into the table.
     if (entry == NULL)
         {
             entry = new HashNode<T>(key, data);
@@ -88,115 +98,123 @@ void Hash<T>::insert (string key, T data)
             entry->next = NULL;
             entry->prev = NULL;
             htable[hashIndex] = entry;
-            //top[hashIndex] = entry;
-
+            numOfBlocksInHashFilled++; //increment number of blocks filled in the hash table.
             cout << (htable[hashIndex])->getKey() << " inserted" << endl;
         }
+    //linked list collision resolution.
+    //if index in htable is not empty
+    //create a new node and link it to the index.
     else
         {
-            HashNode<T> *pPrev;
+            HashNode<T> *pPrev = entry;
             while (entry != NULL){
                 pPrev = entry;
                 entry = entry->next;
 
                 }
             entry = new HashNode<T>(key, data);
-            entry->_dataPtr = data;
+           // entry->_dataPtr = data;
             entry->next = NULL;
             entry->prev = pPrev;
             pPrev->next = entry;
-            //top[hashIndex] = entry;
+            numOfCollisions++; //increment numOfCollisions whenever there is a collision.
             cout << key << " inserted" << endl;
     }
-    numElements++;
-    cout << numElements << endl;
+    numElements++; //increment number of elements after insertion.
 }
 
-//remove key from hashtable.
+//this function removes an entry from hashtable by its key.
 template<class T>
 bool Hash<T>::remove(string key)
 {
-    bool flag = false;
+    bool flag = false; //set flag to false.
     int hashIndex = hashFunc(key);
     HashNode<T> *entry = new HashNode<T>;
     entry = htable[hashIndex];
-    while (entry != nullptr){
 
+    //walk through the hash table
+    while (entry != nullptr){
         if (entry->key == key){
+            //check if entry is in a linked list.
             if(entry->prev != nullptr){
                 HashNode<T> *pCurr;
                 pCurr = entry->prev;
                 pCurr->next = entry->next;
+                numOfCollisions--;
             }
             if(entry->next != nullptr){
                 HashNode<T> *pNext;
                 pNext = entry->next;
                 pNext->prev = entry->prev;
+                numOfCollisions--;
             }
+            //check if entry is in the hash table
+            //with no nodes linked to it.
             if(entry->next == nullptr && entry->prev == nullptr){
                 htable[hashIndex] = nullptr;
-               // top[hashIndex] = nullptr;
                 entry->_dataPtr = nullptr;
+                numOfBlocksInHashFilled--; //decrement if node to be deleted resides in the hashtable.
             }
-            if(entry->next != nullptr && entry->prev == nullptr) //it's thetop
+
+            //check if entry is last node in linked list.
+            if(entry->next != nullptr && entry->prev == nullptr)
             {
                 htable[hashIndex] = entry->next;
                 entry->_dataPtr = nullptr;
-               // HashNode<T> *pCurr;
-                //pCurr = entry->next;
-                //pCurr->prev = entry->prev;
-
-
-
-
+                numOfCollisions--; //decrement number of collisions if part of a linked list.
             }
+            numElements--; //decrement number of elements upon deletion
 
-
-            flag = true;
+            flag = true; //set flag to true.
             return true;
         }
         entry = entry->next;
     }
 
+    //if key cannot be found return false.
     if (!flag){
-        //cout << key << " does not exist in the table. Nothing has been deleted." << endl;
         return false;
     }
 }
 
-//searches for a key in the hashtable.
+//this function searches for a key in the hashtable.
 template<class T>
 int Hash<T>::Search(string key)
  {
-            bool flag = false;
+            bool flag = false; //set flag to false.
             int hashIndex = hashFunc(key);
             HashNode<T>* entry = htable[hashIndex];
+
             while (entry != NULL){
                 if (entry->key == key)
                 {
                     cout << entry->key << " found!" << endl;
-                    flag = true;
+                    flag = true; //set flag to true once entry is found.
                     cout << flag << endl;
                 }
-                entry = entry->next;
+                entry = entry->next; //walk through the linked list.
             }
+
+            //if not found
+            //return -1.
             if (!flag){
                 cout << key << " not found." << endl;
                 return -1;
             }
 }
 
+//this function is a private search function for the hashtable.
 template<class T>
 bool Hash<T>::getEntry(string key, T & data)
  {
-            bool flag = false;
+            bool flag = false; //set flag to false.
             int hashIndex = hashFunc(key);
             HashNode<T>* entry = htable[hashIndex];
             while (entry != NULL){
                 if (entry->key == key)
                 {
                    // cout << entry->key << " found!" << endl;
-                    flag = true;
+                    flag = true; //set
                     data = entry->getData();
                     //cout << flag << endl;
                     return true;
@@ -222,13 +240,13 @@ void Hash<T>::traverseHashTable(void visit(HashNode<T>*))
         //visit it.
         if (htable[i]!=NULL){
             int j = 0;
-            cout << "Stored @ index: " << i << ", " << j << endl;
+            //cout << "Stored @ index: " << i << ", " << j << endl;
             visit(htable[i]);
 
             while (traverser->next!=NULL){
                 j++;
                 traverser = traverser->next;
-                cout << "Stored @ index: " << i << ", " << j << endl;
+                //cout << "Stored @ index: " << i << ", " << j << endl;
                 visit(traverser);
                 }
         }
@@ -259,6 +277,52 @@ void Hash<T>::traverseHashTable(ostream& out)
         }
     }
 }
+template <class T>
+void Hash<T>::showStatistics()
+{
+    std::cout << "Load Factor: " << numOfBlocksInHashFilled << "/" << tableSize<< setprecision(2) << "=" << (float)numOfBlocksInHashFilled/(float)tableSize * 100 << "%" << std::endl;
+    std::cout << "Number of collisions: " << numOfCollisions << std::endl;
+    std::cout << "Number of linked lists: " << getNumOfLinkedLists() << std::endl;
+    std::cout << "Average number of nodes in linked lists: " << (float)numOfCollisions/(float)getNumOfLinkedLists() << std::endl;
+   // std::cout << "Average number of nodes: " << getAvgNumOfNodes() << std::endl;
+}
+
+
+template <class T>
+float Hash<T>::getLoadFactor()
+{
+    float loadFactor;
+    loadFactor = (float)(numOfBlocksInHashFilled)/(float)(tableSize);
+    return loadFactor;
+}
+
+//count average number of nodes in the linked lists.
+
+template <class T>
+float Hash<T>::getAvgNumOfNodes()
+{
+    int nodeCount = 0; //Linked list counter.
+    HashNode<T>* traverser = new HashNode<T>; //traverses the array.
+    //for the length of the array
+    for (int i = 0; i < tableSize; i++){
+        traverser = htable[i]; //traverse the array
+        if (htable[i]!=NULL){ //if a spot in the array is not null
+            while (traverser->next!=NULL){ //check entry->next.
+                nodeCount++; //if entry->next is not null, increment LL counter.
+            }
+        }
+    }
+    float temp = nodeCount;
+    float temp2 = getNumOfLinkedLists();
+    return (temp/temp2);
+}
+
+template <class T>
+int Hash<T>::getNumOfBlocksFilled()
+{
+    return numOfBlocksInHashFilled;
+}
+
 
 //count number of linked lists.
 template <class T>
@@ -278,69 +342,6 @@ int Hash<T>::getNumOfLinkedLists()
     return numOfLL;
 }
 
-//count average number of nodes in the linked lists.
-//count number of linked lists.
-template <class T>
-int Hash<T>::getAvgNumOfNodes()
-{
-    int nodeCount = 0; //Linked list counter.
-    HashNode<T>* traverser = new HashNode<T>; //traverses the array.
-    //for the length of the array
-    for (int i = 0; i < tableSize; i++){
-        traverser = htable[i]; //traverse the array
-        if (htable[i]!=NULL){ //if a spot in the array is not null
-            while (traverser->next!=NULL){ //check entry->next.
-                nodeCount++; //if entry->next is not null, increment LL counter.
-            }
-        }
-    }
-    return nodeCount;
-}
-
-//check if number is prime.
-template <class T>
-bool Hash<T>::isPrime(int x)
-{
-  bool prime;
-  int numOfPrimes = 1;
-  int *primeNumbers;
-  int *temp;
-  primeNumbers = new int;
-  primeNumbers[0] = 2;
-
-    for (int i = 3; i <= x; i++){
-        prime = true;
-
-        for (int j = 0; j < numOfPrimes; j++){
-            if (i % primeNumbers[j] == 0){
-                prime = false; //if divisible by a compound number or another prime number, it is not prime.
-            }
-        }
-    if (prime){
-        temp = new int;
-        if (temp != primeNumbers) delete(primeNumbers);
-        primeNumbers = temp;
-        primeNumbers[numOfPrimes-1] = i;
-    }
-    }
-    return prime;
-}
-
-
-//resizing function.
-//This function increases size of table and creates new hashFunc.
-template <class T>
-int Hash<T>::resizeTable()
-{
-    int newTableSize = tableSize + 1;
-    while (isPrime(newTableSize) == 0)
-    {
-        cout << "not prime" << endl;
-        resizeTable();
-    }
-    tableSize = newTableSize;
-}
-
 template <class T>
 int Hash<T>::rehashFunc(string key){
     cout << "What's your favorite ice cream flavor?" << endl;
@@ -358,55 +359,5 @@ int Hash<T>::rehashFunc(string key){
 
     return (sum^powerSum % tableSize);
 }
-
-template <class T>
-void Hash<T>::rehashInsert(string key, T data){
-
-    resizeTable();
- int hashIndex = rehashFunc(key);
-    HashNode<T> *entry = htable[hashIndex];
-    if (entry == NULL)
-        {
-            entry = new HashNode<T>(key, data);
-            entry->_dataPtr = data;
-            entry->next = NULL;
-            entry->prev = NULL;
-            htable[hashIndex] = entry;
-           // top[hashIndex] = entry;
-
-            cout << (htable[hashIndex])->getKey() << " inserted" << endl;
-        }
-    else
-        {
-            while (entry != NULL)
-                entry = entry->next;
-            entry = new HashNode<T>(key, data);
-            entry->_dataPtr = data;
-            entry->next = NULL;
-            //entry->prev = top[hashIndex];
-           // top[hashIndex]->next = entry;
-           // top[hashIndex] = entry;
-            cout << key << " inserted" << endl;
-    }
-}
-
-template <class T>
-float Hash<T>::getLoadFactor()
-{
-    return static_cast<float>(numOfBlocksInHashFilled/tableSize);
-}
-
-template <class T>
-void Hash<T>::showStatistics()
-{
-    std::cout << "Load Factor: " << numOfBlocksInHashFilled << "/" << tableSize << std::endl;
-    std::cout << "Number of collisions: " << numOfCollisions << std::endl;
-    std::cout << "Number of linked lists: " << getNumOfLinkedLists() << std::endl;
-    std::cout << "Average number of nodes: " << getAvgNumOfNodes() << std::endl;
-}
-
-
-
-
 
 #endif // HASH_H

@@ -89,6 +89,13 @@ Cleavage: Indiscernible
 Color: Purple
 Hardness: 3.5
 
+Name: Dwayne the Rock
+CrystalSystem: Square
+Formula: DtR
+Cleavage: Perfect
+Color: Brown
+Hardness: 7
+
 Name: Marcasite
 CrystalSystem: Orthorhombic
 Formula: FeS2
@@ -138,12 +145,19 @@ Cleavage: Poor
 Color: Colorless
 Hardness: 1.5
 
+Name: Test
+CrystalSystem: asdf
+Formula: asdf
+Cleavage: none
+Color: asdf
+Hardness: 1.3
+
 Name: Halite(Salt)
 CrystalSystem: Isometric
 Formula: NaCl
 Cleavage: Perfect
 Color: White
-Hardness: 2.08631e-317
+Hardness: 2.08712e-317
 
 Name: Analcime
 CrystalSystem: Isometric

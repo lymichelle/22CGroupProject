@@ -78,9 +78,9 @@ public:
 	friend inline ostream& operator<<(ostream& os, Mineral& min)
 	{
 		os << "Name: " << min.getName() << endl
-            << "CrystSyst: " << min.getCystalSystem() << endl
-            << "Formual: " << min.getFormula() << endl
-            << "Cleav: " << min.getCleavage() << endl
+            << "CrystalSystem: " << min.getCystalSystem() << endl
+            << "Formula: " << min.getFormula() << endl
+            << "Cleavage: " << min.getCleavage() << endl
             << "Color: " << min.getColor() << endl
             << "Hardness: " << min.getHardness() << endl;
     		return os;
