@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 
-
 #include "Mineral.h"
 #include "BST/BinarySearchTree.h"
 #include "RockDatabase.h"
+
 using namespace std;
 
 #define MAX 1000
@@ -17,9 +17,7 @@ private:
 	RockDatabase rockBase;
 
 public:
-	DatabaseMenu(){ rockBase.loadFromFile("mineral.txt");
-	mainMenu();
-	}
+	DatabaseMenu(){ rockBase.loadFromFile("mineral.txt"); mainMenu(); }
 	void mainMenu();
 	void caseSearch();
 	void caseList();
@@ -28,17 +26,24 @@ public:
 	void caseUndo();
 	void caseWriteFile();
 	void caseInfo();
-	void caseStatistic();
-	~DatabaseMenu(){rockBase.saveToFile("backup.txt");}
+	~DatabaseMenu(){ rockBase.saveToFile("backup.txt"); }
 };
 
+
+/*************************************************
+* Definition of function display.
+* This function takes a Mineral object and prints
+* it, using the overloaded ostream operator.
+*************************************************/
 
 void display(Mineral *anItem)
 {
    cout << "\t" << *anItem << endl;
 }
 
-
+/*************************************************
+* main function									 *
+*************************************************/
 
 int main()
 {
@@ -47,6 +52,12 @@ int main()
 	return 0;
 }
 
+/*************************************************
+* Definition of function mainMenu.
+* This function displays a list of options and
+* prompts the user to input a command and calls
+* the corresponding function or submenu.
+*************************************************/
 
 void DatabaseMenu::mainMenu()
 {
@@ -60,15 +71,16 @@ void DatabaseMenu::mainMenu()
 	while (!quit)
 	{	// update below
 		cout << "Please select a letter." << endl
-			<< "A - Add New \n"
-			<< "D - Delete \n"
-			<< "N - Undo Delete\n"
-			<< "H - Statistics\n"
-			<< "L - List \n"
-			<< "S - Search for \n"
-			<< "W - Write data into file\n"
-			<< "I - Info about developers\n"
-			<< "Q - Quit\n";
+			 << "A - Add New \n"
+			 << "D - Delete \n"
+			 << "N - Undo Delete\n"
+			 << "H - Statistics\n"
+			 << "L - List \n"
+			 << "S - Search for \n"
+			 << "W - Write data into file\n"
+			 << "I - Info about developers\n"
+			 << "Q - Quit\n"
+			 << "Input: ";
 
 		cin >> choice;
 		choice = toupper(choice);
@@ -77,7 +89,7 @@ void DatabaseMenu::mainMenu()
 		switch (choice)
 		{
 		case 'A': // add
-			caseAdd();
+			rockBase.addMineral();
 			break;
 		case 'D': // delete
 			caseDelete();
@@ -92,7 +104,7 @@ void DatabaseMenu::mainMenu()
 			caseWriteFile();
 			break;
 		case 'H': // Statistic
-			caseStatistic();
+			rockBase.showHashStats();
 			break;
 		case 'N': // undo delete
 			caseUndo();
@@ -113,23 +125,29 @@ void DatabaseMenu::mainMenu()
 }
 
 /*************************************************
+* Definition of function caseInfo
+* This function displays the developers and their
+* tasks.
 *************************************************/
 void DatabaseMenu::caseInfo(){
     cout << "Michelle Ly: File I/O" << endl;
     cout << "John Dwyer: Screen I/O" << endl;
-    cout << "Nausheen Sujela: Hash structure/functions" << endl;
+    cout << "Nausheen Sujela: Hash Structure/Functions" << endl;
     cout << "Jose Sepulveda: BST, Integration" << endl;
 
 }
-void DatabaseMenu::caseAdd()
-{
-	rockBase.addMineral();
-}
+
+/*************************************************
+* Definition of function caseUndo.
+* This function calls the rockBase undoDelete
+* function to restore the last deleted object,
+* and displays whether this was successful or not.
+*************************************************/
 
 void DatabaseMenu::caseUndo()
 {
 	if (rockBase.undoDelete()){
-		cout << "Delete was reverted." << endl;
+		cout << "Deletion was undone." << endl;
 		return;
 	}
 	cout << "Nothing to undo." << endl;
@@ -137,17 +155,24 @@ void DatabaseMenu::caseUndo()
 }
 
 /*************************************************
+* Definition of function caseDelete.
+* This function prompts the user to input the name
+* of a mineral to be deleted, then calls the
+* rockBase function to do so. This function will
+* then display whether the deletion was successful
+* or not.
 *************************************************/
+
 void DatabaseMenu::caseDelete()
 {
 	string mineralName;
 	bool valid = true;
-	cout << "What mineral would you like to delete?\n" << endl;
+	cout << "Input mineral would you like to delete:\n" << endl;
 		cin.ignore();
 		getline(cin, mineralName);
 
 		if (rockBase.deleteItem(mineralName)){
-			cout << "Successfully deleted, " << mineralName << endl;
+			cout << "Successfully deleted " << mineralName << endl;
 			return;
 		}
 		cout << "Sorry, " << mineralName << " not found." << endl;
@@ -156,14 +181,10 @@ void DatabaseMenu::caseDelete()
 }
 
 /*************************************************
-*************************************************/
-void DatabaseMenu::caseStatistic()
-{
-
-    rockBase.showHashStats();
-}
-
-/*************************************************
+* Definition of function caseWriteFile
+* This function prompts the user to enter a file
+* name to write to, then calls the rockBase
+* function to write the data to the named file.
 *************************************************/
 void DatabaseMenu::caseWriteFile()
 {
@@ -174,19 +195,12 @@ void DatabaseMenu::caseWriteFile()
     rockBase.saveToFile(str);
 }
 
-/*bool outFileValid(ofstream &outFile)
-{
-outFile.open("file_name.txt");
-if (!outFile.is_open())
-{
-cout << "Error opening out put file!" << endl;
-return false;
-}
-return true;
-
-}*/
-
 /*************************************************
+* Definition of function caseSearch.
+* This function displays a list of options
+* relating to searching for data and
+* prompts the user to input a command which calls
+* the corresponding function or submenu.
 *************************************************/
 void DatabaseMenu::caseSearch()
 {
@@ -196,9 +210,10 @@ void DatabaseMenu::caseSearch()
 	while (valid)
 	{
 		cout << "Please select a search type from the options below:\n" << endl
-			<< "P - Primary Search\n" // change names later
-			<< "S - Secondary Search\n"
-			<< "Q - Return to previous menu\n" << endl;
+			 << "P - Search by Mineral Name\n"
+			 << "S - Searchy by Crystal System\n"
+			 << "R - Return to Previous Menu\n" 
+			 << "Input: ";
 		cin >> subChoice;
 		subChoice = toupper(subChoice);
 		cout << endl;
@@ -211,9 +226,7 @@ void DatabaseMenu::caseSearch()
             cin.ignore();
             getline(cin, s);// secondary key
             if(!rockBase.search(s)){
-                cout << "Nothing found.\n";
-            }
-
+				cout << "Nothing found.\n"; }
 			break;
 			}
 		case 'S':{
@@ -222,11 +235,10 @@ void DatabaseMenu::caseSearch()
             cin.ignore();
             getline(cin, s);// secondary key
             if(!rockBase.secondarySearch(s)){
-                cout << "Nothing found.\n";
-            }
+				cout << "Nothing found.\n"; }
 			break;
 			}
-		case 'Q': // previous
+		case 'R': // return
 			valid = false;
 			break;
 		default:
@@ -240,6 +252,11 @@ void DatabaseMenu::caseSearch()
 }
 
 /*************************************************
+* Definition of function caseList.
+* This function displays a list of options
+* relating to displaying the data and
+* prompts the user to input a command which calls
+* the corresponding function or submenu.
 *************************************************/
 void DatabaseMenu::caseList()
 {
@@ -249,11 +266,11 @@ void DatabaseMenu::caseList()
 	while (valid)
 	{
 		cout << "Please select a display method.\n" << endl;
-		cout << "U - display unsorted\n"
-			<< "P - display sorted by name\n"
-			<< "S - display sorted by crystal system\n"
-			<< "I - display indented tree by primary\n"
-			<< "R - return to previous menu\n" << endl;
+		cout << "U - Display Unsorted List\n"
+			 << "P - Display Sorted by Mineral Name\n"
+			 << "S - Display Sorted by Crystal System\n"
+			 << "I - Display Indented Tree by Sorted by Mineral Name\n"
+			 << "R - Return to Previous Menu\n" << endl;
 		cin >> subChoice;
 		subChoice = toupper(subChoice);
 		cout << endl;
@@ -267,19 +284,15 @@ void DatabaseMenu::caseList()
 		case 'P':
 			rockBase.printPrimarySorted();
 			break;
-
 		case 'S':
 			rockBase.printSecondarySorted();
 			break;
-
         case 'I':
             rockBase.indented();
             break;
-
 		case 'R':
 			return;
 			break;
-
 		default:
 			cout << "Invalid input." << endl;
 			break;
