@@ -135,7 +135,7 @@ void BinaryTree<ItemType>::_breadth(void visit(ItemType ), BinaryNode<ItemType>*
 
 
 }
-
+//Searching through secondary BST 
 template<class ItemType>
 bool BinaryTree<ItemType>::findEntries(void visit(ItemType ), string const target) const{
 	bool found = false;
@@ -161,9 +161,6 @@ bool BinaryTree<ItemType>::findEntries(void visit(ItemType ), string const targe
 			q.enqueue(node->getRightPtr());
 	}
 	return found;
-
-
-
 }
 
 //Added by Jose Sepulveda

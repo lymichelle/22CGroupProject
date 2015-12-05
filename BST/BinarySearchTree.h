@@ -108,7 +108,7 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_insert(BinaryNode<ItemType>* 
 	}
 	return nodePtr;
 }
-
+//Traversing through primary BST for target and deleting node
 template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* nodePtr,
                                                           const string target,
@@ -131,16 +131,13 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_remove(BinaryNode<ItemType>* 
 	}
 	return nodePtr;
 }
-
+//Traversing through secondary BST and deleting node
 template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::_removeByData(BinaryNode<ItemType>* nodePtr,
                                                           ItemType target,
                                                           bool & success)
 
 {
-
-
-
 	if (nodePtr == 0)
 	{
 		success = false;
@@ -155,7 +152,7 @@ BinaryNode<ItemType>* BinarySearchTree<ItemType>::_removeByData(BinaryNode<ItemT
 	}
 	return nodePtr;
 }
-
+//Deleting node
 template<class ItemType>
 BinaryNode<ItemType>* BinarySearchTree<ItemType>::deleteNode(BinaryNode<ItemType>* nodePtr)
 {
