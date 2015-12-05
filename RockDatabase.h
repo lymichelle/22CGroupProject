@@ -123,6 +123,7 @@ class RockDatabase{
 
 };
 
+//Reading the file into the Mineral class
 bool RockDatabase::loadFromFile(string filePath){
    	string name, formula, color, crys_system, cleavage, hardness;
 	string temp;
@@ -151,8 +152,6 @@ bool RockDatabase::loadFromFile(string filePath){
 		getline(_inFile, hardness);
 		stringToDouble(hardness, hard);
 		_inFile >> c;
-		//getline(_inFile, temp, '\n');
-		//_inFile.get(ch);
 
 		Mineral* mineral;
 		mineral = new Mineral(name,
@@ -168,7 +167,7 @@ bool RockDatabase::loadFromFile(string filePath){
 	return true;
 
 }
-//"9.6"
+//Converting the 'hardness' into a double
 bool RockDatabase::stringToDouble(string str, double & dub){
     size_t pos = str.find('.');
     //cout << str << endl;
@@ -186,15 +185,14 @@ bool RockDatabase::stringToDouble(string str, double & dub){
     }
     return false;
 }
-
+//Checking if string is a decimal digit
 bool RockDatabase::isStrNum(string str){
     for(int i = 0; i < str.length(); i++)
         if(!isdigit(str[i]))
             return false;
     return true;
-
 }
-
+//Searching for primary target using hash's getEntry
 bool RockDatabase::search(string target){
     Mineral* mineral;
     if(_hashTable.getEntry(target, mineral)){
@@ -205,7 +203,7 @@ bool RockDatabase::search(string target){
     //cout << "Sorry, '" << target << "' not found." << endl;
     return false;
 }
-
+//Searching for secondary target using secondary BST's findEntries
 bool RockDatabase::secondarySearch(string target){
     Mineral* mineral;
     if(_secondaryTree.findEntries(display, target)){
@@ -241,7 +239,9 @@ bool RockDatabase::deleteItem(string target, int structureId){
 
 }
 */
-
+//Deleting target by searching for target,
+	//pushing out data from _undoStackData,
+	//and removing it from the hash and BSTs
 bool RockDatabase::deleteItem(string target){
     Mineral* mineral;
     if(_hashTable.getEntry(target, mineral)){
@@ -252,9 +252,11 @@ bool RockDatabase::deleteItem(string target){
         return true;
     }
     return false;
-
 }
 
+//Undo-ing the last delete by popping the last 
+	//deleted data from _undoStackData and inserting
+	//it back into the hash and BSTs
 bool RockDatabase::undoDelete(){
     Mineral* mineral;
     if(_undoStackData.pop(mineral)){
@@ -266,7 +268,7 @@ bool RockDatabase::undoDelete(){
     return false;
 
 }
-
+//Rehashing
 void RockDatabase::toRehash()
 {
     Mineral* mineral;
