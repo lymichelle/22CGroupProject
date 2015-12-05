@@ -143,9 +143,6 @@ bool Hash<T>::remove(string key)
                 numOfCollisions--;
 
 
-
-
-
             }
             numElements--;
 
@@ -276,7 +273,7 @@ float Hash<T>::getLoadFactor()
 }
 
 //count average number of nodes in the linked lists.
-//count number of linked lists.
+
 template <class T>
 float Hash<T>::getAvgNumOfNodes()
 {
@@ -413,12 +410,5 @@ void Hash<T>::rehashInsert(string key, T data){
             cout << key << " inserted" << endl;
     }
 }
-
-
-
-
-
-
-
 
 #endif // HASH_H
