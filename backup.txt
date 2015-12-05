@@ -1,175 +1,182 @@
-Name: Halite(Salt)
-CrystSyst: Isometric
-Formual: NaCl
-Cleav: Perfect
-Color: White
-Hardness: 2.08696e-317
+Name: Lead
+CrystalSystem: Isometric
+Formula: Pb
+Cleavage: None
+Color: Gray
+Hardness: 1.5
 
 Name: Ice
-CrystSyst: Hexagonal
-Formual: H2O
-Cleav: None
+CrystalSystem: Hexagonal
+Formula: H2O
+Cleavage: None
 Color: Colorless
 Hardness: 1.5
 
-Name: Chalcanthite
-CrystSyst: Triclinic
-Formual: CuSO4*5H2O
-Cleav: Indiscernible
-Color: Blue
-Hardness: 2.5
-
-Name: Cummingtonite
-CrystSyst: Monoclinic
-Formual: (Mg,Fe)2(Mg,Fe)5Si8O22(OH)2
-Cleav: Good
-Color: Brown
-Hardness: 2.5
-
-Name: Arsenic
-CrystSyst: Hexagonal
-Formual: As
-Cleav: Perfect
+Name: Graphite
+CrystalSystem: Hexagonal
+Formula: C
+Cleavage: Perfect
 Color: Gray
-Hardness: 3.5
-
-Name: Emerald
-CrystSyst: Hexagonal
-Formual: Be3Al2SiO6
-Cleav: Poor
-Color: Green
-Hardness: 7.5
-
-Name: Magnetite
-CrystSyst: Isometric
-Formual: Fe2+(Fe3+)2O4
-Cleav: None
-Color: Gray
-Hardness: 7.5
-
-Name: Analcime
-CrystSyst: Isometric
-Formual: NaAlSi2O6*H2O
-Cleav: Indiscernible
-Color: White
-Hardness: 7.5
-
-Name: Fluorite
-CrystSyst: Isometric
-Formual: CaF2
-Cleav: Perfect
-Color: All Colors
-Hardness: 7.5
+Hardness: 1.5
 
 Name: Bixbyite
-CrystSyst: Isometric
-Formual: (Mn,Fe)2O3
-Cleav: Poor
+CrystalSystem: Isometric
+Formula: (Mn,Fe)2O3
+Cleavage: Poor
 Color: Black
 Hardness: 7.5
 
+Name: Diaspore
+CrystalSystem: Orthohombic
+Formula: AlO(OH)
+Cleavage: Perfect
+Color: Colorless
+Hardness: 6.5
+
+Name: Wolframite
+CrystalSystem: Monoclinic
+Formula: (MnFe)WO4
+Cleavage: Perfect
+Color: Red
+Hardness: 4.5
+
 Name: Aquamarine
-CrystSyst: Hexagonal
-Formual: Be3Al2SiO6
-Cleav: Poor
+CrystalSystem: Hexagonal
+Formula: Be3Al2SiO6
+Cleavage: Poor
 Color: Blue
 Hardness: 7.5
 
-Name: Uvite
-CrystSyst: Hexagonal
-Formual: Ca(Mg,Fe2+)3Al5Mg(BO3)3Si6O18(OH)4
-Cleav: Poor
-Color: Green
-Hardness: 7.5
-
-Name: Diaspore
-CrystSyst: Orthohombic
-Formual: AlO(OH)
-Cleav: Perfect
-Color: Colorless
-Hardness: 6.5
-
-Name: Topaz
-CrystSyst: Orthorhombic
-Formual: Al2SiO4(F,OH)2
-Cleav: Good
-Color: Colorless
-Hardness: 6.5
+Name: Hematite
+CrystalSystem: Hexagonal
+Formula: Fe2O3
+Cleavage: None
+Color: Black
+Hardness: 1.5
 
 Name: Wavellite
-CrystSyst: Orthorhombic
-Formual: Al3(PO4)2(OH)3*5(H2O)
-Cleav: Good
+CrystalSystem: Orthorhombic
+Formula: Al3(PO4)2(OH)3*5(H2O)
+Cleavage: Good
 Color: Green
 Hardness: 3.5
 
+Name: Bustamite
+CrystalSystem: Triclinic
+Formula: (Mn,Ca)SiO3
+Cleavage: Good
+Color: Pink
+Hardness: 5.5
+
+Name: Magnetite
+CrystalSystem: Isometric
+Formula: Fe2+(Fe3+)2O4
+Cleavage: None
+Color: Gray
+Hardness: 7.5
+
 Name: Dolomite
-CrystSyst: Hexagonal
-Formual: CaMg(CO3)
-Cleav: Poor
+CrystalSystem: Hexagonal
+Formula: CaMg(CO3)
+Cleavage: Poor
 Color: Colorless
 Hardness: 3.5
 
 Name: Amethyst
-CrystSyst: Hexagonal
-Formual: SiO2
-Cleav: Indiscernible
+CrystalSystem: Hexagonal
+Formula: SiO2
+Cleavage: Indiscernible
 Color: Purple
 Hardness: 3.5
 
-Name: Bustamite
-CrystSyst: Triclinic
-Formual: (Mn,Ca)SiO3
-Cleav: Good
-Color: Pink
-Hardness: 5.5
-
-Name: Garnet
-CrystSyst: Isometric
-Formual: Ca3Al2Si3O12
-Cleav: Indiscernible
-Color: All Colors
-Hardness: 6.5
-
 Name: Marcasite
-CrystSyst: Orthorhombic
-Formual: FeS2
-Cleav: Good
+CrystalSystem: Orthorhombic
+Formula: FeS2
+Cleavage: Good
 Color: Yellow
 Hardness: 6.5
 
-Name: Lead
-CrystSyst: Isometric
-Formual: Pb
-Cleav: None
-Color: Gray
-Hardness: 1.5
+Name: Chalcanthite
+CrystalSystem: Triclinic
+Formula: CuSO4*5H2O
+Cleavage: Indiscernible
+Color: Blue
+Hardness: 2.5
 
-Name: Graphite
-CrystSyst: Hexagonal
-Formual: C
-Cleav: Perfect
+Name: Fluorite
+CrystalSystem: Isometric
+Formula: CaF2
+Cleavage: Perfect
+Color: All Colors
+Hardness: 7.5
+
+Name: Arsenic
+CrystalSystem: Hexagonal
+Formula: As
+Cleavage: Perfect
 Color: Gray
-Hardness: 1.5
+Hardness: 3.5
+
+Name: Cummingtonite
+CrystalSystem: Monoclinic
+Formula: (Mg,Fe)2(Mg,Fe)5Si8O22(OH)2
+Cleavage: Good
+Color: Brown
+Hardness: 2.5
+
+Name: Michelle
+CrystalSystem: Joie
+Formula: AsdA
+Cleavage: sda
+Color: Blu
+Hardness: 3.2
+
+Name: Garnet
+CrystalSystem: Isometric
+Formula: Ca3Al2Si3O12
+Cleavage: Indiscernible
+Color: All Colors
+Hardness: 6.5
 
 Name: Diamond
-CrystSyst: Isometric
-Formual: C
-Cleav: Poor
+CrystalSystem: Isometric
+Formula: C
+Cleavage: Poor
 Color: Colorless
 Hardness: 1.5
 
-Name: Hematite
-CrystSyst: Hexagonal
-Formual: Fe2O3
-Cleav: None
-Color: Black
-Hardness: 1.5
+Name: Halite(Salt)
+CrystalSystem: Isometric
+Formula: NaCl
+Cleavage: Perfect
+Color: White
+Hardness: -9.25596e+061
 
-Name: Wolframite
-CrystSyst: Monoclinic
-Formual: (MnFe)WO4
-Cleav: Perfect
-Color: Red
-Hardness: 4.5
+Name: Analcime
+CrystalSystem: Isometric
+Formula: NaAlSi2O6*H2O
+Cleavage: Indiscernible
+Color: White
+Hardness: 7.5
+
+Name: Uvite
+CrystalSystem: Hexagonal
+Formula: Ca(Mg,Fe2+)3Al5Mg(BO3)3Si6O18(OH)4
+Cleavage: Poor
+Color: Green
+Hardness: 7.5
+
+Name: Topaz
+CrystalSystem: Orthorhombic
+Formula: Al2SiO4(F,OH)2
+Cleavage: Good
+Color: Colorless
+Hardness: 6.5
+
+Name: Emerald
+CrystalSystem: Hexagonal
+Formula: Be3Al2SiO6
+Cleavage: Poor
+Color: Green
+Hardness: 7.5
 
