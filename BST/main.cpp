@@ -5,7 +5,7 @@
 //		Description: This program creates a modifyable BST with data from the employees.txt file
 //				Windows 7 64-bit Visual Studio
 
-#include "BinarySearchTree.h"  // BST ADT 
+#include "BinarySearchTree.h"  // BST ADT
 #include "Employee.h" //Employee Class
 
 #include <iostream>
@@ -20,7 +20,7 @@ using namespace std;
 void display(Employee & anItem)
 {
    cout << "\t" << anItem << endl;
-}  
+}
 
 //Added by Jose Sepulveda
 //Class to make interacting with the BST simpler
@@ -36,7 +36,7 @@ class EmployeeTree{
 		void inOrder(){cout << "\nIn-Order Traversal:\n"; empTree.inOrder(display);}
 		void preOrder(){cout << "\nPre-Order Traversal:\n"; empTree.preOrder(display);}
 		void postOrder(){cout << "\nPost-Order Traversal:\n"; empTree.postOrder(display);}
-		void deleteLeaves(){cout << "\nDeleting all leaves..."; 
+		void deleteLeaves(){cout << "\nDeleting all leaves...";
 			(empTree.deleteLeaves()) ? (cout << "success!\n") : (cout << "failed, only root remains.\n");}
 		bool search(int num);
 };
@@ -49,7 +49,7 @@ void check(bool success)
       cout << "Done." << endl;
    else
       cout << " Entry not in tree." << endl;
-}  
+}
 
 //Added by Jose Sepulveda
 //This function prints the menu
@@ -90,7 +90,7 @@ void bstController(EmployeeTree &tree){
 		   if(choice == 'D'){
 			   tree.inOrder();
 			   tree.preOrder();
-			   tree.postOrder();		   
+			   tree.postOrder();
 		   }
 		   if(choice == 'B'){
 			   tree.breadth();
@@ -107,13 +107,13 @@ void bstController(EmployeeTree &tree){
 		   if(choice == 'M'){
 			   printMenu();
 		   }
-		   
+
 		}
 
 
 
     }while(choice != 'Q');
-   
+
 }
 
 int main()
@@ -123,7 +123,7 @@ int main()
 
 
    return 0;
-}  
+}
 
 //Added by Jose Sepulveda
 //This search simplifies it by printing the item if found.
@@ -136,7 +136,7 @@ bool EmployeeTree::search(int num){
 			}
 			cout << "\nNot found.\n";
 			return false;
-			
+
 		}
 
 //Added by Jose Sepulveda
@@ -151,7 +151,7 @@ EmployeeTree::EmployeeTree(string filename){
 			string temp;
 			while(iss >> temp)
 				tokens.push_back(temp);
-			
+
 			Employee emp(stoi(tokens[0]), tokens[1] + " " + tokens[2]);
 			empTree.insert(emp);
 		}

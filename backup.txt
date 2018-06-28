@@ -124,6 +124,13 @@ Cleavage: Good
 Color: Brown
 Hardness: 2.5
 
+Name: Michelle
+CrystalSystem: Software Engineer
+Formula: M1CH
+Cleavage: 0
+Color: Gray
+Hardness: 10
+
 Name: Garnet
 CrystalSystem: Isometric
 Formula: Ca3Al2Si3O12
@@ -143,7 +150,7 @@ CrystalSystem: Isometric
 Formula: NaCl
 Cleavage: Perfect
 Color: White
-Hardness: 2.08631e-317
+Hardness: 2.2527e-314
 
 Name: Analcime
 CrystalSystem: Isometric
